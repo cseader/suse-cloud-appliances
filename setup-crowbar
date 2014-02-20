@@ -1,0 +1,21 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          nothing
+# Required-Start:    $all
+# Required-Stop:
+# Default-Start:     3 5
+# Default-Stop:      0
+# Short-Description: setup-suse-crowbar
+# Description:       Execute setup-suse-crowbar
+### END INIT INFO
+
+# Check for missing binaries (stale symlinks should not happen)
+# Note: Special treatment of stop for LSB conformance
+
+SETUP_BIN=/usr/bin/setup-suse-crowbar
+test -x $SETUP_BIN || { echo "$SETUP_BIN not installed"; 
+        if [ "$1" = "stop" ]; then exit 0;
+        else exit 5; fi; }
+
+/bin/bash $SETUP_BIN
+

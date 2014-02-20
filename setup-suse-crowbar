@@ -1,0 +1,87 @@
+#!/bin/bash
+
+#
+# This script is integrated into my SUSE studio appliances to configure 
+# the appliances and install crowbar from internal repositories. If you 
+# need custom mountpoints because you are not located within the Nuremberg 
+# office you can customize the script after the first boot.
+#
+# Author: Thomas Boerger <tboerger@suse.de>
+# Author: Cameron Seader <cs@suse.com>
+#
+# I have modified this script to accomodate being outside the firewall and 
+# easily setting everything up which is required from the deployment guide.
+# -Cameron Seader
+#
+
+die() {
+  echo >&2 "$*"
+  exit 1
+}
+
+setup_cloud_network() {
+  yast crowbar --ncurses
+}
+
+setup_local_smt() {
+    
+  smt-ncc-sync
+  
+}
+
+link_smt_repos() {
+  for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-3.0-{Pool,Updates}; do
+    ln -s /srv/www/htdocs/repo/\$RCE/$REPO/sle-11-x86_64 /srv/tftpboot/repos/${REPO/.0/}
+  done
+}
+
+mirror_smt_repos() {
+  #smt repos -e SUSE-Cloud-3.0-Pool 
+  #smt repos -e SUSE-Cloud-3.0-Updates 
+  #smt repos -e SLES11-SP3-Pool sle-11-x86_64
+  #smt repos -e SLES11-SP3-Updates sle-11-x86_64
+  
+  for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-3.0-{Pool,Updates}; do
+    smt repos -e $REPO sle-11-x86_64
+  done
+  
+  echo -e '\n'
+  echo 'The system will now mirror the proper repositories for SUSE Cloud.\n
+        This process will take over an hour depending on your bandwidth.'
+  echo -e '\n'
+  
+  smt-mirror
+  [[ $? -ne 0 ]] && die "Failed to Mirror repos"
+}
+
+remove_ncc_repos() {
+  for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-3.0-{Pool,Updates} SLE11-SMT-SP3-{Pool,Updates}; do
+      zypper mr -d $REPO
+  done
+}
+
+install_suse_cloud() {
+
+  screen bash -l /usr/sbin/install-suse-cloud
+  exit
+  [[ $? -ne 0 ]] && die "Failed to install chef for cloud"
+}
+
+main() {
+
+  setup_local_smt
+      
+  mirror_smt_repos
+  link_smt_repos
+    
+  setup_cloud_network
+   
+  remove_ncc_repos 
+
+  install_suse_cloud
+  
+  insserv setup-crowbar -r
+  mv /etc/init.d/suse_studio_firstboot /tmp/
+}
+
+main "$@"
