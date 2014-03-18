@@ -1,10 +1,5 @@
 #!/bin/bash
-
 #
-# This script is integrated into my SUSE studio appliances to configure 
-# the appliances and install crowbar from internal repositories. If you 
-# need custom mountpoints because you are not located within the Nuremberg 
-# office you can customize the script after the first boot.
 #
 # Author: Thomas Boerger <tboerger@suse.de>
 # Author: Cameron Seader <cs@suse.com>
@@ -13,6 +8,9 @@
 # easily setting everything up which is required from the deployment guide.
 # -Cameron Seader
 #
+
+#variables
+repo_dir="/var/www/htdocs/repo/"
 
 die() {
   echo >&2 "$*"
@@ -24,14 +22,19 @@ setup_cloud_network() {
 }
 
 setup_local_smt() {
-    
+  
+  if [ -d "$repo_dir" ]; then
+  tar -xJvf /srv/tftpboot/txz/SUSE-Cloud-3-repos-03182014.txz -C $repo_dir 
+  else 
+  echo "$repo_dir does not exist"
+  fi 
   smt-ncc-sync
   
 }
 
 link_smt_repos() {
-  for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-3.0-{Pool,Updates}; do
-    ln -s /srv/www/htdocs/repo/\$RCE/$REPO/sle-11-x86_64 /srv/tftpboot/repos/${REPO/.0/}
+  for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-3.0-{Pool,Updates} SLE11-SMT-SP3-{Pool,Updates} SLE11-HAE-SP3-{Pool,Updates}; do
+    ln -s $repo_dir\$RCE/$REPO/sle-11-x86_64 /srv/tftpboot/repos/${REPO/.0/}
   done
 }
 
@@ -41,7 +44,7 @@ mirror_smt_repos() {
   #smt repos -e SLES11-SP3-Pool sle-11-x86_64
   #smt repos -e SLES11-SP3-Updates sle-11-x86_64
   
-  for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-3.0-{Pool,Updates}; do
+  for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-3.0-{Pool,Updates} SLE11-SMT-SP3-{Pool,Updates} SLE11-HAE-SP3-{Pool,Updates}; do
     smt repos -e $REPO sle-11-x86_64
   done
   
