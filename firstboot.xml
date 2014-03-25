@@ -78,6 +78,11 @@
                     <enabled config:type="boolean">true</enabled>
                     <name>firstboot_timezone</name>
                 </module>
+                <module>
+                    <label>Proxy</label>
+                    <enabled config:type="boolean">true</enabled>
+                    <name>proxy</name>
+                </module>
 		<module>
 		    <label>SUSE register</label>
                     <enabled config:type="boolean">true</enabled>
