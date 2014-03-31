@@ -1,7 +1,6 @@
 #!/bin/bash
 #
 #
-# Author: Thomas Boerger <tboerger@suse.de>
 # Author: Cameron Seader <cs@suse.com>
 #
 # I have modified this script to accomodate being outside the firewall and 
@@ -9,11 +8,15 @@
 # -Cameron Seader
 #
 
+#environment variables
+export SHELL=/bin/bash
+export TERM=linux
+export LANG=POSIX
+
 #variables
 DIALOG_TITLE=" Prepare SUSE Cloud 3 Admin "
 repo_dir="/srv/www/htdocs/repo/"
 LOGFILE=/var/log/prepare-admin.log
-run_succeeded=
 
 # Infrastructure for nice output/logging
 # --------------------------------------
@@ -40,9 +43,9 @@ use_dialog () {
 pipe_show_and_log () {
     if use_dialog; then
         t=$(mktemp)
-        cat - > $t
-        dialog --title "$DIALOG_TITLE" --textbox -- $t $(($(wc -l <$t)+4)) 75 >&3
-        rm -f $t
+        cat - > "$t"
+        dialog --title "$DIALOG_TITLE" --textbox -- "$t" $(($(wc -l <"$t")+4)) 75 >&3
+        rm -f "$t"
         dialog --clear >&3
     fi
     tee -a /dev/fd/3 /dev/fd/4 > /dev/null
@@ -76,7 +79,7 @@ spinner () {
 
 kill_spinner () {
     if [ ! -z "$LAST_SPINNER_PID" ]; then
-        kill >/dev/null 2>&1 $LAST_SPINNER_PID
+        kill >/dev/null 2>&1 "$LAST_SPINNER_PID"
         if [ $# -eq 0 ]; then
             printf "\b\b\bdone\n" >&3
         else
@@ -96,38 +99,38 @@ echo_log () {
 
 echo_summary () {
     # Also send summary to logfile
-    echo_log $@
+    echo_log "$@"
 
     kill_spinner
 
     if [ -z "$CROWBAR_VERBOSE" ]; then
         if [ -t 3 ]; then
-            echo -n -e $@ >&3
+            echo -n -e "$@" >&3
             if use_dialog; then
-                echo -n -e $@ | dialog --title "$DIALOG_TITLE" --progressbox 8 60 >&3
+                echo -n -e "$@" | dialog --title "$DIALOG_TITLE" --progressbox 8 60 >&3
             fi
             # Use disown to lose job control messages (especially the
             # "Completed" message when spinner will be killed)
-            ( spinner $@ ) & disown
+            ( spinner "$@" ) & disown
             LAST_SPINNER_PID=$!
         else
-            echo -e $@ >&3
+            echo -e "$@" >&3
         fi
     else
-        echo -e === $@ >&3
+        echo -e === "$@" >&3
     fi
 }
 
 echo_summary_no_spinner () {
     # Also send summary to logfile
-    echo_log $@
+    echo_log "$@"
 
     kill_spinner
 
     if [ -z "$CROWBAR_VERBOSE" ]; then
-        echo -e $@ >&3
+        echo -e "$@" >&3
     else
-        echo -e === $@ >&3
+        echo -e === "$@" >&3
     fi
 }
 
@@ -140,24 +143,19 @@ die() {
 
     if use_dialog; then
         dialog --title "$DIALOG_TITLE" --clear --msgbox -- "Error: $@" 8 73 >&3
-        # avoid triggering two dialogs in a row
-        run_succeeded=already_died
+        # avoid triggering two dialogs in a row        
     else
         echo >&3
         echo -e "Error: $@" >&3
     fi
 
-    res=1
     exit 1
-}
-
-setup_cloud_network() {
-  yast crowbar --ncurses
 }
 
 setup_local_smt() {
   
   if [ -d "$repo_dir" ]; then
+  cat /srv/tftpboot/txz/SUSE-Cloud-3-repos-03182014.txz.part0* > /srv/tftpboot/txz/SUSE-Cloud-3-repos-03182014.txz
   tar -xJvf /srv/tftpboot/txz/SUSE-Cloud-3-repos-03182014.txz -C $repo_dir 
   chown -R smt:www /srv/www/htdocs/repo/\$RCE/
   else 
@@ -195,13 +193,6 @@ remove_ncc_repos() {
   done
 }
 
-install_suse_cloud() {
-
-  screen bash -l /usr/sbin/install-suse-cloud
-  exit
-  [[ $? -ne 0 ]] && die "Failed to install chef for cloud"
-}
-
 main() {
 
   echo_summary "Setup SMT repos"
@@ -211,14 +202,9 @@ main() {
   mirror_smt_repos
   echo_summary "Linking SMT repos properly"
   link_smt_repos
-  
-  #removing to setup after all preparations are complete  
-  #setup_cloud_network
-  
+      
   echo_summary "Disabling remote repos" 
   remove_ncc_repos 
-#FIXME - removing as it fails because proper env is not set  
-  #install_suse_cloud
   
   echo_summary "Clean up"
   insserv setup-crowbar -r
@@ -226,29 +212,8 @@ main() {
   
   echo_summary "Preparation Complete!"
   kill_spinner
-  cat <<EOF | pipe_show_and_log
-
- The Admin node has been prepared. To finish the installation
- you will need to define the network configuration that
- you defined while going through the questionnaire along with 
- the deployment guide. 
-
- At the login prompt you may login as root and execute
-
-        yast crowbar 
-
- Once your network settings are all defined then continue the 
- install and execute         
-
-	screen install-suse-cloud 
-
- Before you proceed with install-suse-cloud its important that
- the network settings are properly defined and that you have 
- everything right otherwise you will need to start over. 
-EOF
-
-run_succeeded=hooray
-exit 0
+  
+  exit 0
 }
 
 main "$@"

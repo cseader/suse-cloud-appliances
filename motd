@@ -1,0 +1,18 @@
+                   ____
+                 /@    ~-.
+                 \/ __ .- |     SUSE Cloud 3
+                  // //  @ 
+   
+To finish setting up SUSE Cloud 3 you will need to define the network.
+To help you with the network configuration refer to the deployment guide
+and companion deployment questionnaire.
+
+execute yast2 crowbar
+
+Once your network settings are all defined then continue the crowbar install
+
+execute install-suse-cloud
+
+Before you proceed with install-suse-cloud its important that
+the network settings are properly defined and that you have 
+everything right otherwise you will need to start over.
