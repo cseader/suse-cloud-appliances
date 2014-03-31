@@ -11,8 +11,9 @@ execute yast2 crowbar
 
 Once your network settings are all defined then continue the crowbar install
 
-execute install-suse-cloud
+execute screen install-suse-cloud
 
 Before you proceed with install-suse-cloud its important that
 the network settings are properly defined and that you have 
 everything right otherwise you will need to start over.
+
