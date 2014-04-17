@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# read in some variables
+. /studio/profile
+
+if [ -f /etc/init.d/suse_studio_firstboot ]; then
+  echo "Running SUSE Studio first boot script..."
+fi

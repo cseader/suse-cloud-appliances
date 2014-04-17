@@ -1,0 +1,32 @@
+#!/bin/bash -e
+
+# read in KIWI utility functions
+. /.kconfig
+
+# Remove EULA on first boot
+rm /etc/YaST2/licenses/license.txt
+
+# Auto-start services on boot
+chkconfig ntp on
+chkconfig sshd on
+
+# Create mount point for ISO files
+mkdir -p /srv/tftpboot/iso
+mkdir -p /srv/tftpboot/txz
+
+# Create mountpoint directories for Cloud
+for MOUNTPOINT in /srv/tftpboot/suse-11.3/install /srv/tftpboot/repos/Cloud
+do
+  if [ ! -d $MOUNTPOINT ]
+  then
+    mkdir -p $MOUNTPOINT
+  fi
+done
+
+# start service setup-crowbar
+insserv setup-crowbar
+
+# Enable firstboot
+touch /var/lib/YaST2/reconfig_system
+
+exit 0
