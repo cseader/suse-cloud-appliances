@@ -42,7 +42,6 @@
             <label>Configuration</label>
             <mode>installation</mode>
             <modules  config:type="list">
-              
                 <module>
                     <label>Language</label>
                     <enabled config:type="boolean">true</enabled>
@@ -64,7 +63,7 @@
                     <name>inst_hostname</name>
                 </module>
                 <module>
-                    <enabled config:type="boolean">false</enabled>
+                    <enabled config:type="boolean">true</enabled>
                     <name>firstboot_ssh</name>
                 </module>
                 <module>
@@ -100,7 +99,7 @@
 		</module>
                 <module>
                     <label>Desktop</label>
-                    <enabled config:type="boolean">true</enabled>
+                    <enabled config:type="boolean">false</enabled>
                     <name>firstboot_desktop</name>
                 </module>
                 <module>
@@ -141,7 +140,6 @@
                     <name>inst_congratulate</name>
                     <enabled config:type="boolean">false</enabled>
                 </module>
-
             </modules>
         </workflow>
     </workflows>
