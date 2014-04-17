@@ -154,10 +154,11 @@ die() {
 }
 
 setup_local_smt() {
-  
   if [ -d "$txz_dir" ]; then
-  cat /srv/tftpboot/txz/SUSE-Cloud-3-repos-03182014.txz.part0* > /srv/tftpboot/txz/SUSE-Cloud-3-repos-03182014.txz
-  tar -xJvf /srv/tftpboot/txz/SUSE-Cloud-3-repos-03182014.txz -C $repo_dir 
+  mkdir -p /srv/www/htdocs/repo/\$RCE/  
+    if cat /srv/tftpboot/txz/SUSE-Cloud-3-repos-03182014.txz.part0* | tar -xJv -C $repo_dir; then
+       rm /srv/tftpboot/txz/SUSE-Cloud-3-repos-03182014.txz.part0*
+    fi
   chown -R smt:www /srv/www/htdocs/repo/\$RCE/
   else 
   echo "$txz_dir does not exist. Must be Standard Image"
