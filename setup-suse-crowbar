@@ -198,7 +198,7 @@ main() {
   echo_summary "Setup SMT repos"
   setup_local_smt
       
-  echo_summary "Checking SMT repos for updated packages"
+  echo_summary "Mirroring SMT repos... This will take awhile"
   mirror_smt_repos
   echo_summary "Linking SMT repos properly"
   link_smt_repos
