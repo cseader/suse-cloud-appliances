@@ -16,6 +16,7 @@ export LANG=POSIX
 #variables
 DIALOG_TITLE=" Prepare SUSE Cloud 3 Admin "
 repo_dir="/srv/www/htdocs/repo/"
+txz_dir="/srv/tftpboot/txz"
 LOGFILE=/var/log/prepare-admin.log
 
 # Infrastructure for nice output/logging
@@ -154,12 +155,12 @@ die() {
 
 setup_local_smt() {
   
-  if [ -d "$repo_dir" ]; then
+  if [ -d "$txz_dir" ]; then
   cat /srv/tftpboot/txz/SUSE-Cloud-3-repos-03182014.txz.part0* > /srv/tftpboot/txz/SUSE-Cloud-3-repos-03182014.txz
   tar -xJvf /srv/tftpboot/txz/SUSE-Cloud-3-repos-03182014.txz -C $repo_dir 
   chown -R smt:www /srv/www/htdocs/repo/\$RCE/
   else 
-  echo "$repo_dir does not exist"
+  echo "$txz_dir does not exist. Must be Standard Image"
   fi 
   smt-ncc-sync
   
@@ -197,8 +198,11 @@ main() {
 
   echo_summary "Setup SMT repos"
   setup_local_smt
-      
+  if [ -d "$txz_dir" ]; then
+  echo_summary "Checking SMT repos for updated packages" 
+  else    
   echo_summary "Mirroring SMT repos... This will take awhile"
+  fi
   mirror_smt_repos
   echo_summary "Linking SMT repos properly"
   link_smt_repos
