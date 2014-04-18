@@ -1,5 +1,4 @@
 ## SUSE Cloud Appliances
-======
 
 We have reached milestone 1.1
 
