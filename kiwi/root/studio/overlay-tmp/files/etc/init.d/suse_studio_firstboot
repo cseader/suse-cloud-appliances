@@ -7,53 +7,51 @@ ISODIR="/srv/tftpboot/iso"
 REPOSDIR="/srv/tftpboot/repos"
 
 die() {
-  echo >&2 "$*"
-  exit 1
+    echo >&2 "$*"
+    exit 1
 }
 
 setup_local_sles_repos() {
-mkdir -p /srv/tftpboot/suse-11.3/install/
-# mount SLES 11 SP3 ISO
-mount -o loop $ISODIR/SLES-11-SP3-DVD-x86_64-GM-DVD1.iso /srv/tftpboot/suse-11.3/install
-
-zypper --gpg-auto-import-keys refresh
-zypper ar --refresh file:///srv/tftpboot/suse-11.3/install/ "SLES 11 SP3 Media"
+    mkdir -p /srv/tftpboot/suse-11.3/install/
+    # mount SLES 11 SP3 ISO
+    mount -o loop $ISODIR/SLES-11-SP3-DVD-x86_64-GM-DVD1.iso /srv/tftpboot/suse-11.3/install
+    # Add repos to zypper
+    zypper --gpg-auto-import-keys refresh
+    zypper ar --refresh file:///srv/tftpboot/suse-11.3/install/ "SLES 11 SP3 Media"
 }
 
 setup_local_cloud_repos() {
-mkdir -p $REPOSDIR/Cloud/
-# mount SUSE Cloud 3 ISO
-mount -o loop $ISODIR/SUSE-CLOUD-3-x86_64-GM-DVD1.iso $REPOSDIR/Cloud
-
-zypper --gpg-auto-import-keys refresh
-zypper ar --refresh file://$REPOSDIR/Cloud/ "SUSE-Cloud-3"
+    mkdir -p $REPOSDIR/Cloud/
+    # mount SUSE Cloud 3 ISO
+    mount -o loop $ISODIR/SUSE-CLOUD-3-x86_64-GM-DVD1.iso $REPOSDIR/Cloud
+    # Add repos to zypper
+    zypper --gpg-auto-import-keys refresh
+    zypper ar --refresh file://$REPOSDIR/Cloud/ "SUSE-Cloud-3"
 }
 
 setup_fstab_iso_mounts() {
-echo "$ISODIR/SLES-11-SP3-DVD-x86_64-GM-DVD1.iso    /srv/tftpboot/suse-11.3/install   iso9660   loop,auto   0 0" >> /etc/fstab
-echo "$ISODIR/SUSE-CLOUD-3-x86_64-GM-DVD1.iso    $REPOSDIR/Cloud   iso9660   loop,auto   0 0" >> /etc/fstab
+    echo "$ISODIR/SLES-11-SP3-DVD-x86_64-GM-DVD1.iso    /srv/tftpboot/suse-11.3/install   iso9660   loop,auto   0 0" >> /etc/fstab
+    echo "$ISODIR/SUSE-CLOUD-3-x86_64-GM-DVD1.iso    $REPOSDIR/Cloud   iso9660   loop,auto   0 0" >> /etc/fstab
 }
 
 setup_local_smt_repo() {
-zypper ar -c -t yast2 iso:/?iso=$ISODIR/SLE-11-SP3-SMT-GM-Media1.iso "SMT for SLES11SP3"
-zypper --gpg-auto-import-keys refresh
-zypper in -y --auto-agree-with-licenses -t pattern SMT lamp_server   
+    zypper ar -c -t yast2 iso:/?iso=$ISODIR/SLE-11-SP3-SMT-GM-Media1.iso "SMT for SLES11SP3"
+    zypper --gpg-auto-import-keys refresh
+    zypper in -y --auto-agree-with-licenses -t pattern SMT lamp_server   
 }
 
 install_cloud_admin() {
-zypper --gpg-auto-import-keys refresh
-zypper in -y --auto-agree-with-licenses --force-resolution -t pattern cloud_admin
-[[ $? -ne 0 ]] && die "Failed to install cloud_admin pattern"
+    zypper --gpg-auto-import-keys refresh
+    zypper in -y --auto-agree-with-licenses --force-resolution -t pattern cloud_admin
+    [[ $? -ne 0 ]] && die "Failed to install cloud_admin pattern"
 }
 
 main() {
-  
-  setup_local_sles_repos
-  setup_local_cloud_repos
-  setup_fstab_iso_mounts
-  setup_local_smt_repo
-  
-  install_cloud_admin    
+    setup_local_sles_repos
+    setup_local_cloud_repos
+    setup_fstab_iso_mounts
+    setup_local_smt_repo
+    install_cloud_admin    
 }
 
 main "$@"

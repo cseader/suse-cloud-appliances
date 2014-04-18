@@ -154,71 +154,66 @@ die() {
 }
 
 setup_local_smt() {
-  if [ -d "$txz_dir" ]; then
-  mkdir -p /srv/www/htdocs/repo/\$RCE/  
-    if cat /srv/tftpboot/txz/SUSE-Cloud-3-repos-03182014.txz.part0* | tar -xJv -C $repo_dir; then
-       rm /srv/tftpboot/txz/SUSE-Cloud-3-repos-03182014.txz.part0*
+    if [ -d "$txz_dir" ]; then
+        mkdir -p /srv/www/htdocs/repo/\$RCE/  
+        if cat /srv/tftpboot/txz/SUSE-Cloud-3-repos-03182014.txz.part0* | tar -xJv -C $repo_dir; then
+            rm /srv/tftpboot/txz/SUSE-Cloud-3-repos-03182014.txz.part0*
     fi
-  chown -R smt:www /srv/www/htdocs/repo/\$RCE/
-  else 
-  echo "$txz_dir does not exist. Must be Standard Image"
-  fi 
-  smt-ncc-sync
-  
+    chown -R smt:www /srv/www/htdocs/repo/\$RCE/
+    else 
+        echo "$txz_dir does not exist. Must be Standard Image"
+    fi 
+    smt-ncc-sync
 }
 
 link_smt_repos() {
-  for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-3.0-{Pool,Updates} SLE11-SMT-SP3-{Pool,Updates} SLE11-HAE-SP3-{Pool,Updates}; do
-    ln -s $repo_dir\$RCE/$REPO/sle-11-x86_64 /srv/tftpboot/repos/${REPO/.0/}
-  done
+    for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-3.0-{Pool,Updates} SLE11-SMT-SP3-{Pool,Updates} SLE11-HAE-SP3-{Pool,Updates}; do
+        ln -s $repo_dir\$RCE/$REPO/sle-11-x86_64 /srv/tftpboot/repos/${REPO/.0/}
+    done
 }
 
 mirror_smt_repos() {
-  #smt repos -e SUSE-Cloud-3.0-Pool 
-  #smt repos -e SUSE-Cloud-3.0-Updates 
-  #smt repos -e SLES11-SP3-Pool sle-11-x86_64
-  #smt repos -e SLES11-SP3-Updates sle-11-x86_64
+    #smt repos -e SUSE-Cloud-3.0-Pool 
+    #smt repos -e SUSE-Cloud-3.0-Updates 
+    #smt repos -e SLES11-SP3-Pool sle-11-x86_64
+    #smt repos -e SLES11-SP3-Updates sle-11-x86_64
   
-  for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-3.0-{Pool,Updates} SLE11-SMT-SP3-{Pool,Updates} SLE11-HAE-SP3-{Pool,Updates}; do
-    smt repos -e $REPO sle-11-x86_64
-  done
+    for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-3.0-{Pool,Updates} SLE11-SMT-SP3-{Pool,Updates} SLE11-HAE-SP3-{Pool,Updates}; do
+        smt repos -e $REPO sle-11-x86_64
+    done
   
-  echo -e 'The system will now mirror any remaining packages from the included repos\n'
+    echo -e 'The system will now mirror any remaining packages from the included repos\n'
   
-  smt-mirror
-  [[ $? -ne 0 ]] && die "Failed to Mirror repos"
+    smt-mirror
+    [[ $? -ne 0 ]] && die "Failed to Mirror repos"
 }
 
 remove_ncc_repos() {
-  for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-3.0-{Pool,Updates} SLE11-SMT-SP3-{Pool,Updates}; do
-      zypper mr -d $REPO
-  done
+    for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-3.0-{Pool,Updates} SLE11-SMT-SP3-{Pool,Updates}; do
+        zypper mr -d $REPO
+    done
 }
 
 main() {
-
-  echo_summary "Setup SMT repos"
-  setup_local_smt
-  if [ -d "$txz_dir" ]; then
-  echo_summary "Checking SMT repos for updated packages" 
-  else    
-  echo_summary "Mirroring SMT repos... This will take awhile"
-  fi
-  mirror_smt_repos
-  echo_summary "Linking SMT repos properly"
-  link_smt_repos
-      
-  echo_summary "Disabling remote repos" 
-  remove_ncc_repos 
-  
-  echo_summary "Clean up"
-  insserv setup-crowbar -r
-  mv /etc/init.d/suse_studio_firstboot /tmp/
-  
-  echo_summary "Preparation Complete!"
-  kill_spinner
-  
-  exit 0
+    echo_summary "Setup SMT repos"
+    setup_local_smt
+    if [ -d "$txz_dir" ]; then
+        echo_summary "Checking SMT repos for updated packages" 
+    else    
+        echo_summary "Mirroring SMT repos... This will take awhile"
+    fi
+    mirror_smt_repos
+    echo_summary "Linking SMT repos properly"
+    link_smt_repos
+    echo_summary "Disabling remote repos" 
+    remove_ncc_repos 
+    echo_summary "Clean up"
+    # Cleanup firstboot
+    insserv setup-crowbar -r
+    mv /etc/init.d/suse_studio_firstboot /tmp/
+    echo_summary "Preparation Complete!"
+    kill_spinner
+    exit 0
 }
 
 main "$@"

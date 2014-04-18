@@ -14,8 +14,7 @@
 
 SETUP_BIN=/usr/bin/setup-suse-crowbar
 test -x $SETUP_BIN || { echo "$SETUP_BIN not installed"; 
-        if [ "$1" = "stop" ]; then exit 0;
-        else exit 5; fi; }
+    if [ "$1" = "stop" ]; then exit 0;
+    else exit 5; fi; }
 
 /bin/bash $SETUP_BIN
-

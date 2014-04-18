@@ -17,10 +17,10 @@ mkdir -p /srv/tftpboot/txz
 # Create mountpoint directories for Cloud
 for MOUNTPOINT in /srv/tftpboot/suse-11.3/install /srv/tftpboot/repos/Cloud
 do
-  if [ ! -d $MOUNTPOINT ]
-  then
+    if [ ! -d $MOUNTPOINT ]
+        then
     mkdir -p $MOUNTPOINT
-  fi
+    fi
 done
 
 # start service setup-crowbar
