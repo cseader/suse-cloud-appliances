@@ -17,7 +17,8 @@ export LANG=POSIX
 DIALOG_TITLE=" Prepare SUSE Cloud 3 Admin "
 repo_dir="/srv/www/htdocs/repo/"
 txz_dir="/srv/tftpboot/txz"
-LOGFILE=/var/log/prepare-admin.log
+LOGFILE=/var/log/prepare-admin2.log
+IMAGE_TYPE=`grep kiwi_iname /studio/profile`
 
 # Infrastructure for nice output/logging
 # --------------------------------------
@@ -153,18 +154,20 @@ die() {
     exit 1
 }
 
-setup_local_smt() {
-    if [ -d "$txz_dir" ]; then
-        mkdir -p /srv/www/htdocs/repo/\$RCE/  
-        if cat /srv/tftpboot/txz/SUSE-Cloud-3-repos-03182014.txz.part0* | tar -xJv -C $repo_dir; then
-            rm /srv/tftpboot/txz/SUSE-Cloud-3-repos-03182014.txz.part0*
-    fi
-    chown -R smt:www /srv/www/htdocs/repo/\$RCE/
-    else 
-        echo "$txz_dir does not exist. Must be Standard Image"
-    fi 
-    smt-ncc-sync
-}
+#Moved functionality to firstboot script
+#
+#setup_local_smt() {
+#    if [ -d "$txz_dir" ]; then
+#        mkdir -p /srv/www/htdocs/repo/\$RCE/  
+#        if cat /srv/tftpboot/txz/SUSE-Cloud-3-repos-03182014.txz.part0* | tar -xJv -C $repo_dir; then
+#            rm /srv/tftpboot/txz/SUSE-Cloud-3-repos-03182014.txz.part0*
+#    fi
+#    chown -R smt:www /srv/www/htdocs/repo/\$RCE/
+#    else 
+#        echo "$txz_dir does not exist. Must be Standard Image"
+#        smt-ncc-sync 
+#    fi 
+#}
 
 link_smt_repos() {
     for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-3.0-{Pool,Updates} SLE11-SMT-SP3-{Pool,Updates} SLE11-HAE-SP3-{Pool,Updates}; do
@@ -177,15 +180,15 @@ mirror_smt_repos() {
     #smt repos -e SUSE-Cloud-3.0-Updates 
     #smt repos -e SLES11-SP3-Pool sle-11-x86_64
     #smt repos -e SLES11-SP3-Updates sle-11-x86_64
-  
-    for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-3.0-{Pool,Updates} SLE11-SMT-SP3-{Pool,Updates} SLE11-HAE-SP3-{Pool,Updates}; do
-        smt repos -e $REPO sle-11-x86_64
-    done
-  
-    echo -e 'The system will now mirror any remaining packages from the included repos\n'
-  
-    smt-mirror
-    [[ $? -ne 0 ]] && die "Failed to Mirror repos"
+    if [[ $IMAGE_TYPE != *Embedded* ]]; then
+        for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-3.0-{Pool,Updates} SLE11-SMT-SP3-{Pool,Updates} SLE11-HAE-SP3-{Pool,Updates}; do
+            smt repos -e $REPO sle-11-x86_64
+        done
+        echo -e 'The system will now mirror any remaining packages from the included repos\n'
+        smt-mirror
+    else
+        echo "Embedded Image: Skipping step "
+    fi
 }
 
 remove_ncc_repos() {
@@ -194,24 +197,58 @@ remove_ncc_repos() {
     done
 }
 
+setup_local_cloud_updates_repos() {
+    if [[ $IMAGE_TYPE != *Embedded* ]]; then
+        echo_summary "Adding update repos for SUSE Cloud" 
+        zypper --gpg-auto-import-keys refresh
+        zypper ar --refresh file://$REPOSDIR/SUSE-Cloud-3-Updates/ "SUSE-Cloud-3-Updates"
+    else
+        echo "Embedded Image: Skipping..."
+    fi
+}
+
+install_cloud_admin() {
+    if [[ $IMAGE_TYPE != *Embedded* ]]; then
+        echo_summary "Installing SUSE Cloud Admin Software..."
+        zypper --gpg-auto-import-keys refresh
+        zypper in -y --auto-agree-with-licenses --force-resolution -t pattern cloud_admin
+    else
+        echo "Embedded Image: Skipping..."
+    fi
+}
+
 main() {
-    echo_summary "Setup SMT repos"
-    setup_local_smt
-    if [ -d "$txz_dir" ]; then
-        echo_summary "Checking SMT repos for updated packages" 
-    else    
+# moved to first boot script
+#    setup_local_smt
+    if [[ $IMAGE_TYPE != *Embedded* ]]; then
+        echo_summary "Syncing SMT"
+        smt-ncc-sync
+    fi
+    if [[ $IMAGE_TYPE != *Embedded* ]]; then
         echo_summary "Mirroring SMT repos... This will take awhile"
+    else    
+        echo_summary "Embedded Image: Skipping..."
     fi
     mirror_smt_repos
-    echo_summary "Linking SMT repos properly"
-    link_smt_repos
-    echo_summary "Disabling remote repos" 
-    remove_ncc_repos 
+    if [[ $IMAGE_TYPE != *Embedded* ]]; then
+        echo_summary "Linking SMT repos properly"
+        link_smt_repos
+    else
+        echo_summary "Embedded Image: Skipping..."
+    fi
+    if [[ $IMAGE_TYPE != *Embedded* ]]; then
+        echo_summary "Disabling remote repos..." 
+        remove_ncc_repos 
+    else
+        echo_summary "Embedded Image: Skipping..."
+    fi
+    setup_local_cloud_updates_repos
+    install_cloud_admin
     echo_summary "Clean up"
     # Cleanup firstboot
     insserv setup-crowbar -r
     mv /etc/init.d/suse_studio_firstboot /tmp/
-    echo_summary "Preparation Complete!"
+    echo_summary "Preparation #2 Complete!"
     kill_spinner
     exit 0
 }
