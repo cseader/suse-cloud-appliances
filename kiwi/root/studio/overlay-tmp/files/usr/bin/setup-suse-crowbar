@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 #
 #
 # Author: Cameron Seader <cs@suse.com>
@@ -154,21 +155,6 @@ die() {
     exit 1
 }
 
-#Moved functionality to firstboot script
-#
-#setup_local_smt() {
-#    if [ -d "$txz_dir" ]; then
-#        mkdir -p /srv/www/htdocs/repo/\$RCE/  
-#        if cat /srv/tftpboot/txz/SUSE-Cloud-3-repos-03182014.txz.part0* | tar -xJv -C $repo_dir; then
-#            rm /srv/tftpboot/txz/SUSE-Cloud-3-repos-03182014.txz.part0*
-#    fi
-#    chown -R smt:www /srv/www/htdocs/repo/\$RCE/
-#    else 
-#        echo "$txz_dir does not exist. Must be Standard Image"
-#        smt-ncc-sync 
-#    fi 
-#}
-
 link_smt_repos() {
     for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-3.0-{Pool,Updates} SLE11-SMT-SP3-{Pool,Updates} SLE11-HAE-SP3-{Pool,Updates}; do
         ln -s $repo_dir\$RCE/$REPO/sle-11-x86_64 /srv/tftpboot/repos/${REPO/.0/}
@@ -218,8 +204,6 @@ install_cloud_admin() {
 }
 
 main() {
-# moved to first boot script
-#    setup_local_smt
     if [[ $IMAGE_TYPE != *Embedded* ]]; then
         echo_summary "Syncing SMT"
         smt-ncc-sync
