@@ -1,5 +1,4 @@
 #!/bin/bash
-set -x 
 #
 # suse_studio_firstboot
 #
@@ -14,14 +13,8 @@ LOGFILE=/var/log/prepare-admin1.log
 # Infrastructure for nice output/logging
 # --------------------------------------
 
-# Copy stdout to fd 3
-exec 3>&1
-# Create fd 4 for logfile
-exec 4>> "$LOGFILE"
-# Set fd 1 and 2 to logfile (and keep stdout too)
-exec 1> >( tee -a /dev/fd/4 ) 2>&1
-# Send summary fd to original stdout
-exec 6>&3
+# Send stdout to LOGFILE
+exec > $LOGFILE
 
 link_smt_repos() {
     for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-3.0-{Pool,Updates} SLE11-SMT-SP3-{Pool,Updates} SLE11-HAE-SP3-{Pool,Updates}; do

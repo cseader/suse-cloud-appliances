@@ -1,5 +1,4 @@
 #!/bin/bash
-set -x
 #
 #
 # Author: Cameron Seader <cs@suse.com>
@@ -204,6 +203,7 @@ install_cloud_admin() {
 }
 
 main() {
+    echo_summary "Preparing..."
     if [[ $IMAGE_TYPE != *Embedded* ]]; then
         echo_summary "Syncing SMT"
         smt-ncc-sync
