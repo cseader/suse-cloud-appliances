@@ -4,5 +4,14 @@
 . /studio/profile
 
 if [ -f /etc/init.d/suse_studio_firstboot ]; then
-    echo "Running SUSE Studio first boot script..."
+    echo ""
+    printf "%*s" $COLUMNS |tr " " "="
+    echo " ____"
+    echo "/@    ~-."
+    echo "\/ __ .- |   SUSE Cloud 3 Admin"
+    echo " // //  @"
+    echo "    Running prepare step 1"
+    echo "    This will take a few minutes..."
+    printf "%*s" $COLUMNS |tr " " "="
+    echo ""
 fi
