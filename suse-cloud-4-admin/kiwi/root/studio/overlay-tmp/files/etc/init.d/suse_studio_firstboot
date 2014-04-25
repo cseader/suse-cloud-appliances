@@ -17,7 +17,7 @@ LOGFILE=/var/log/prepare-admin1.log
 exec > $LOGFILE
 
 link_smt_repos() {
-    for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-3.0-{Pool,Updates} SLE11-SMT-SP3-{Pool,Updates} SLE11-HAE-SP3-{Pool,Updates}; do
+    for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-4.0-{Pool,Updates} SLE11-SMT-SP3-{Pool,Updates} SLE11-HAE-SP3-{Pool,Updates}; do
         ln -s $SMTREPOS\$RCE/$REPO/sle-11-x86_64 $REPOSDIR/${REPO/.0/}
     done
 }
@@ -46,13 +46,13 @@ setup_local_sles_repos() {
 
 setup_local_cloud_repos() {
     mkdir -p $REPOSDIR/Cloud/
-    # mount SUSE Cloud 3 ISO
-    mount -o loop $ISODIR/SUSE-CLOUD-3-x86_64-GM-DVD1.iso $REPOSDIR/Cloud
+    # mount SUSE Cloud 4 ISO
+    mount -o loop $ISODIR/SUSE-CLOUD-4-x86_64-Build0008-Media1.iso $REPOSDIR/Cloud
     # Add repos to zypper
     zypper --gpg-auto-import-keys refresh
-    zypper ar --refresh file://$REPOSDIR/Cloud/ "SUSE-Cloud-3"
+    zypper ar --refresh file://$REPOSDIR/Cloud/ "SUSE-Cloud-4"
     if [[ $IMAGE_TYPE = *Embedded* ]]; then
-        zypper ar --refresh file://$REPOSDIR/SUSE-Cloud-3-Updates/ "SUSE-Cloud-3-Updates"
+        zypper ar --refresh file://$REPOSDIR/SUSE-Cloud-4-Updates/ "SUSE-Cloud-4-Updates"
     else
         echo "Standard Image: Setting this up later"
     fi
@@ -60,7 +60,7 @@ setup_local_cloud_repos() {
 
 setup_fstab_iso_mounts() {
     echo "$ISODIR/SLES-11-SP3-DVD-x86_64-GM-DVD1.iso    /srv/tftpboot/suse-11.3/install   iso9660   loop,auto   0 0" >> /etc/fstab
-    echo "$ISODIR/SUSE-CLOUD-3-x86_64-GM-DVD1.iso    $REPOSDIR/Cloud   iso9660   loop,auto   0 0" >> /etc/fstab
+    echo "$ISODIR/SUSE-CLOUD-4-x86_64-Build0008-Media1.iso    $REPOSDIR/Cloud   iso9660   loop,auto   0 0" >> /etc/fstab
 }
 
 setup_local_smt_repo() {

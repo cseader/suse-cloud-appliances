@@ -14,7 +14,7 @@ export TERM=linux
 export LANG=POSIX
 
 #variables
-DIALOG_TITLE=" Prepare SUSE Cloud 3 Admin "
+DIALOG_TITLE=" Prepare SUSE Cloud 4 Admin "
 repo_dir="/srv/www/htdocs/repo/"
 txz_dir="/srv/tftpboot/txz"
 LOGFILE=/var/log/prepare-admin2.log
@@ -155,18 +155,18 @@ die() {
 }
 
 link_smt_repos() {
-    for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-3.0-{Pool,Updates} SLE11-SMT-SP3-{Pool,Updates} SLE11-HAE-SP3-{Pool,Updates}; do
+    for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-4.0-{Pool,Updates} SLE11-SMT-SP3-{Pool,Updates} SLE11-HAE-SP3-{Pool,Updates}; do
         ln -s $repo_dir\$RCE/$REPO/sle-11-x86_64 /srv/tftpboot/repos/${REPO/.0/}
     done
 }
 
 mirror_smt_repos() {
-    #smt repos -e SUSE-Cloud-3.0-Pool 
-    #smt repos -e SUSE-Cloud-3.0-Updates 
+    #smt repos -e SUSE-Cloud-4.0-Pool 
+    #smt repos -e SUSE-Cloud-4.0-Updates 
     #smt repos -e SLES11-SP3-Pool sle-11-x86_64
     #smt repos -e SLES11-SP3-Updates sle-11-x86_64
     if [[ $IMAGE_TYPE != *Embedded* ]]; then
-        for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-3.0-{Pool,Updates} SLE11-SMT-SP3-{Pool,Updates} SLE11-HAE-SP3-{Pool,Updates}; do
+        for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-4.0-{Pool,Updates} SLE11-SMT-SP3-{Pool,Updates} SLE11-HAE-SP3-{Pool,Updates}; do
             smt repos -e $REPO sle-11-x86_64
         done
         echo -e 'The system will now mirror any remaining packages from the included repos\n'
@@ -177,7 +177,7 @@ mirror_smt_repos() {
 }
 
 remove_ncc_repos() {
-    for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-3.0-{Pool,Updates} SLE11-SMT-SP3-{Pool,Updates}; do
+    for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-4.0-{Pool,Updates} SLE11-SMT-SP3-{Pool,Updates}; do
         zypper mr -d $REPO
     done
 }
@@ -186,7 +186,7 @@ setup_local_cloud_updates_repos() {
     if [[ $IMAGE_TYPE != *Embedded* ]]; then
         echo_summary "Adding update repos for SUSE Cloud" 
         zypper --gpg-auto-import-keys refresh
-        zypper ar --refresh file://$REPOSDIR/SUSE-Cloud-3-Updates/ "SUSE-Cloud-3-Updates"
+        zypper ar --refresh file://$REPOSDIR/SUSE-Cloud-4-Updates/ "SUSE-Cloud-4-Updates"
     else
         echo "Embedded Image: Skipping..."
     fi
@@ -232,7 +232,7 @@ main() {
     # Cleanup firstboot
     insserv setup-crowbar -r
     mv /etc/init.d/suse_studio_firstboot /tmp/
-    echo_summary "Preparation #2 Complete!"
+    echo_summary "Preparation Step 2 Complete!"
     kill_spinner
     exit 0
 }
