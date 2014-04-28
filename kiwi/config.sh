@@ -98,6 +98,10 @@ mv /studio/overlay-tmp/files//etc//sysconfig/network/config /etc//sysconfig/netw
 chown root:root /etc//sysconfig/network/config
 chmod 644 /etc//sysconfig/network/config
 mkdir -p /etc/sysconfig/network/
+mv /studio/overlay-tmp/files//etc//sysconfig/network/dhcp /etc//sysconfig/network/dhcp
+chown root:root /etc//sysconfig/network/dhcp
+chmod 644 /etc//sysconfig/network/dhcp
+mkdir -p /etc/sysconfig/network/
 mv /studio/overlay-tmp/files//etc//sysconfig/network/routes /etc//sysconfig/network/routes
 chown root:root /etc//sysconfig/network/routes
 chmod 644 /etc//sysconfig/network/routes
