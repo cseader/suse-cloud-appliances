@@ -44,6 +44,11 @@ setup_local_sles_repos() {
     # Add repos to zypper
     zypper --gpg-auto-import-keys refresh
     zypper ar --refresh file:///srv/tftpboot/suse-11.3/install/ "SLES 11 SP3 Media"
+    if [[ $IMAGE_TYPE = *Embedded* ]]; then
+        zypper ar --refresh file://$REPOSDIR/SLES11-SP3-Updates/ "SLES 11 SP3 Updates"
+    else
+        echo "Standard Image: Adding SLES Updates repo later"
+    fi
 }
 
 setup_local_cloud_repos() {
@@ -78,6 +83,7 @@ setup_local_smt_repo() {
 install_cloud_admin() {
     if [[ $IMAGE_TYPE = *Embedded* ]]; then
         zypper --gpg-auto-import-keys refresh
+        zypper up -y --auto-agree-with-licenses --force-resolution
         zypper in -y --auto-agree-with-licenses --force-resolution -t pattern cloud_admin
     else
         echo "Standard Image: Installing pattern cloud_admin later"
