@@ -1,0 +1,52 @@
+#!/bin/bash -e
+#
+# This script is executed at the end of appliance creation.  Here you can do
+# one-time actions to modify your appliance before it is ever used, like
+# removing files and directories to make it smaller, creating symlinks,
+# generating indexes, etc.
+#
+# The 'kiwi_type' variable will contain the format of the appliance
+# (oem = disk image, vmx = VMware, iso = CD/DVD, xen = Xen).
+#
+
+# read in some variables
+. /.profile
+. /image/.profile
+
+# read in KIWI utility functions
+. /.kconfig
+
+# Remove EULA on first boot
+rm /etc/YaST2/licenses/license.txt
+
+# Auto-start services on boot
+chkconfig ntp on
+chkconfig sshd on
+
+# Create mount point for ISO files
+mkdir -p /srv/tftpboot/iso
+mkdir -p /srv/tftpboot/txz
+
+# Create mountpoint directories for Cloud
+for MOUNTPOINT in /srv/tftpboot/suse-11.3/install /srv/tftpboot/repos/Cloud
+do
+    if [ ! -d $MOUNTPOINT ]
+        then
+    mkdir -p $MOUNTPOINT
+    fi
+done
+
+# start service setup-crowbar
+insserv setup-crowbar
+
+# Pick the right firstboot.xml to use
+if [[ $kiwi_iname = *Embedded* ]]; then
+    sed -i.orig 's/firstboot.xml/firstboot-embedded.xml/g' /etc/sysconfig/firstboot
+else
+    sed -i.orig 's/firstboot.xml/firstboot-standard.xml/g' /etc/sysconfig/firstboot
+fi
+
+# Enable firstboot
+touch /var/lib/YaST2/reconfig_system
+
+exit 0
