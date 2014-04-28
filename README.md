@@ -1,5 +1,5 @@
-SUSE Cloud Admin Node appliances
-================================
+SUSE Cloud 3 Admin Node appliances
+================================== 
 
 This repo contains the source and documentation used to build the 
 SUSE Cloud Admin Node appliances.
