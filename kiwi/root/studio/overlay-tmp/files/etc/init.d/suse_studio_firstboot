@@ -9,6 +9,8 @@ REPOSDIR="/srv/tftpboot/repos"
 SMTREPOS="/srv/www/htdocs/repo/"
 IMAGE_TYPE=`grep kiwi_iname /studio/profile`
 LOGFILE=/var/log/prepare-admin1.log
+CLOUDISO="SUSE-CLOUD-4-x86_64-Build0008-Media1.iso"
+DEV=1
 
 # Infrastructure for nice output/logging
 # --------------------------------------
@@ -47,20 +49,24 @@ setup_local_sles_repos() {
 setup_local_cloud_repos() {
     mkdir -p $REPOSDIR/Cloud/
     # mount SUSE Cloud 4 ISO
-    mount -o loop $ISODIR/SUSE-CLOUD-4-x86_64-Build0008-Media1.iso $REPOSDIR/Cloud
+    mount -o loop $ISODIR/$CLOUDISO $REPOSDIR/Cloud
     # Add repos to zypper
     zypper --gpg-auto-import-keys refresh
     zypper ar --refresh file://$REPOSDIR/Cloud/ "SUSE-Cloud-4"
-    if [[ $IMAGE_TYPE = *Embedded* ]]; then
+    if [[ $IMAGE_TYPE = *Embedded* && $DEV = 0 ]]; then
         zypper ar --refresh file://$REPOSDIR/SUSE-Cloud-4-Updates/ "SUSE-Cloud-4-Updates"
     else
-        echo "Standard Image: Setting this up later"
+        if [[ $DEV = 1 ]]; then
+            echo "Devel Image: Skipping..."
+        else
+            echo "Standard Image: Setting this up later"
+        fi
     fi
 }
 
 setup_fstab_iso_mounts() {
     echo "$ISODIR/SLES-11-SP3-DVD-x86_64-GM-DVD1.iso    /srv/tftpboot/suse-11.3/install   iso9660   loop,auto   0 0" >> /etc/fstab
-    echo "$ISODIR/SUSE-CLOUD-4-x86_64-Build0008-Media1.iso    $REPOSDIR/Cloud   iso9660   loop,auto   0 0" >> /etc/fstab
+    echo "$ISODIR/$CLOUDISO    $REPOSDIR/Cloud   iso9660   loop,auto   0 0" >> /etc/fstab
 }
 
 setup_local_smt_repo() {
