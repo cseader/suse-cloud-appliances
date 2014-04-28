@@ -73,6 +73,7 @@ install_cloud_admin() {
     if [[ $IMAGE_TYPE = *Embedded* ]]; then
         zypper --gpg-auto-import-keys refresh
         zypper in -y --auto-agree-with-licenses --force-resolution -t pattern cloud_admin
+        zypper in -y --auto-agree-with-licenses --force-resolution ipmitool
     else
         echo "Standard Image: Installing pattern cloud_admin later"
     fi
