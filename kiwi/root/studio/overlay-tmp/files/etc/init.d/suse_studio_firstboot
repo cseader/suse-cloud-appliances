@@ -22,6 +22,12 @@ link_smt_repos() {
     for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-4.0-{Pool,Updates} SLE11-SMT-SP3-{Pool,Updates} SLE11-HAE-SP3-{Pool,Updates}; do
         ln -s $SMTREPOS\$RCE/$REPO/sle-11-x86_64 $REPOSDIR/${REPO/.0/}
     done
+
+    if [[ $DEV = 1 ]]; then
+        for REPO in SUSE-Cloud-4.0-{Pool,Updates}; do
+            rm $REPOSDIR/${REPO/.0/}
+        done
+    fi
 }
 
 setup_local_smt() {
