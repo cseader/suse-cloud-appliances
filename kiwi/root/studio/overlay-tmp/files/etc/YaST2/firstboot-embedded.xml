@@ -53,6 +53,11 @@
                   <name>firstboot_license</name>
                 </module>
                 <module>
+                    <label>Host Name</label>
+                    <enabled config:type="boolean">true</enabled>
+                    <name>inst_hostname</name>
+                </module>
+                <module>
                     <label>Network</label>
                     <name>inst_proposal</name>
                     <enabled config:type="boolean">true</enabled>

@@ -58,6 +58,11 @@
                     <name>firstboot_keyboard</name>
                 </module>
                 <module>
+                    <label>Host Name</label>
+                    <enabled config:type="boolean">true</enabled>
+                    <name>inst_hostname</name>
+                </module>
+                <module>
                     <enabled config:type="boolean">true</enabled>
                     <name>firstboot_ssh</name>
                 </module>
