@@ -85,6 +85,7 @@ install_cloud_admin() {
         zypper --gpg-auto-import-keys refresh
         zypper up -y --auto-agree-with-licenses --force-resolution
         zypper in -y --auto-agree-with-licenses --force-resolution -t pattern cloud_admin
+        zypper in -y --auto-agree-with-licenses --force-resolution ipmitool
     else
         echo "Standard Image: Installing pattern cloud_admin later"
     fi

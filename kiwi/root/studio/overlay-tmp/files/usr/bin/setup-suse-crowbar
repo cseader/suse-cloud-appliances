@@ -17,6 +17,7 @@ export LANG=POSIX
 DIALOG_TITLE=" Prepare SUSE Cloud 4 Admin "
 repo_dir="/srv/www/htdocs/repo/"
 txz_dir="/srv/tftpboot/txz"
+REPOSDIR="/srv/tftpboot/repos"
 LOGFILE=/var/log/prepare-admin2.log
 IMAGE_TYPE=`grep kiwi_iname /studio/profile`
 
@@ -210,10 +211,10 @@ main() {
     fi
     if [[ $IMAGE_TYPE != *Embedded* ]]; then
         echo_summary "Mirroring SMT repos... This will take awhile"
+        mirror_smt_repos
     else    
         echo_summary "Embedded Image: Skipping..."
     fi
-    mirror_smt_repos
     if [[ $IMAGE_TYPE != *Embedded* ]]; then
         echo_summary "Linking SMT repos properly"
         link_smt_repos
