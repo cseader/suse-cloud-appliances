@@ -1,11 +1,5 @@
-<<<<<<< HEAD
 SUSE Cloud 4 Admin appliances
 ================================
-=======
-SUSE Cloud 3 Admin Node appliances
-================================== 
->>>>>>> bwgartner-master
-
 Coming Soon...
 
 This repo contains the source and documentation used to build the 
