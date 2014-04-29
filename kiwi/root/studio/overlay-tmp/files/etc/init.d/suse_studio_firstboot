@@ -8,7 +8,7 @@ ISODIR="/srv/tftpboot/iso"
 REPOSDIR="/srv/tftpboot/repos"
 SMTREPOS="/srv/www/htdocs/repo/"
 IMAGE_TYPE=`grep kiwi_iname /studio/profile`
-LOGFILE=/var/log/prepare-admin1.log
+LOGFILE='/var/log/prepare-admin1.log'
 CLOUDISO="SUSE-CLOUD-4-x86_64-Build0008-Media1.iso"
 DEV=1
 
@@ -16,7 +16,7 @@ DEV=1
 # --------------------------------------
 
 # Send stdout to LOGFILE
-exec > $LOGFILE
+exec > "$LOGFILE" 2>&1
 
 link_smt_repos() {
     for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-4.0-{Pool,Updates} SLE11-SMT-SP3-{Pool,Updates} SLE11-HAE-SP3-{Pool,Updates}; do
