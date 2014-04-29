@@ -8,13 +8,13 @@ ISODIR="/srv/tftpboot/iso"
 REPOSDIR="/srv/tftpboot/repos"
 SMTREPOS="/srv/www/htdocs/repo/"
 IMAGE_TYPE=`grep kiwi_iname /studio/profile`
-LOGFILE=/var/log/prepare-admin1.log
+LOGFILE='/var/log/prepare-admin1.log'
 
 # Infrastructure for nice output/logging
 # --------------------------------------
 
 # Send stdout to LOGFILE
-exec > $LOGFILE
+exec > "$LOGFILE" 2>&1
 
 link_smt_repos() {
     for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-3.0-{Pool,Updates} SLE11-SMT-SP3-{Pool,Updates} SLE11-HAE-SP3-{Pool,Updates}; do
