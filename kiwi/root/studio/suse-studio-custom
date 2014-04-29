@@ -10,6 +10,7 @@ if [ -f /etc/init.d/suse_studio_firstboot ]; then
     echo "/@    ~-."
     echo "\/ __ .- |   SUSE Cloud 4 Admin"
     echo " // //  @"
+    echo ""
     echo "    Running prepare step 1"
     echo "    This will take a few minutes..."
     printf "%*s" $COLUMNS |tr " " "="
