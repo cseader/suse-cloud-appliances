@@ -14,7 +14,7 @@ export TERM=linux
 export LANG=POSIX
 
 #variables
-DIALOG_TITLE=" Prepare SUSE Cloud 4 Admin "
+DIALOG_TITLE=" Prepare SUSE OpenStack Cloud 4 Admin "
 repo_dir="/srv/www/htdocs/repo/"
 txz_dir="/srv/tftpboot/txz"
 REPOSDIR="/srv/tftpboot/repos"

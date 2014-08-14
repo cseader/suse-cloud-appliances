@@ -136,10 +136,15 @@
                     <enabled config:type="boolean">true</enabled>
                     <name>firstboot_ntp</name>
                 </module>
-                <module>
+<!--            <module>
                     <label>Customer Center</label>
                     <name>inst_suse_register</name>
                 </module>
+		<module>
+                    <label>SMT Setup</label>
+                    <enabled config:type="boolean">true</enabled>
+                    <name>smt-server</name>
+                </module>		-->
                 <module>
                     <label>Finish Setup</label>
                     <name>firstboot_write</name>

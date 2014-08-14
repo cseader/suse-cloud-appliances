@@ -3,7 +3,7 @@
   <studio_uuid>8466bd24-fd59-11df-9f90-475ae2f5345b</studio_uuid>
   <appliance_uuid>6d806c62-6292-11e3-2b82-6d85c08649ef</appliance_uuid>
   <config>
-    <image name="SUSE_Cloud_3_Admin" displayname="SUSE_Cloud_3_Admin" schemaversion="5.2">
+    <image name="SUSE_OpenStack_Cloud_4_Admin" displayname="SUSE_OpenStack_Cloud_4_Admin" schemaversion="5.2">
       <description type="system">
         <author>cameron seader</author>
         <contact>studio-devel@suse.de</contact>
@@ -37,10 +37,16 @@
       <repository type="rpm-md">
         <source path="http://sle-mirror.cluster.xs/updates/SLE11-SDK-SP3-Updates/sle-11-x86_64/"/>
       </repository>
+      <repository type="yast2">
+        <source path="http://sle-mirror.cluster.xs/install/SLE11-SMT-SP3-x86_64/"/>
+      </repository>
+      <repository type="rpm-md">
+        <source path="http://sle-mirror.cluster.xs/updates/SLE11-SMT-SP3-Updates/sle-11-x86_64/"/>
+      </repository>
       <packages type="image" patternType="onlyRequired">
         <opensusePattern name="Minimal"/>
         <opensusePattern name="x11"/>
-        <opensusePattern name="lamp_server"/>
+        <opensusePattern name="SMT"/>
         <opensusePattern name="base"/>
         <package name="rsync"/>
         <package name="install-initrd"/>

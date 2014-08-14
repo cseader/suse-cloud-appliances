@@ -25,7 +25,6 @@ chkconfig sshd on
 
 # Create mount point for ISO files
 mkdir -p /srv/tftpboot/iso
-mkdir -p /srv/tftpboot/txz
 
 # Create mountpoint directories for Cloud
 for MOUNTPOINT in /srv/tftpboot/suse-11.3/install /srv/tftpboot/repos/Cloud
@@ -40,11 +39,15 @@ done
 insserv setup-crowbar
 
 # Pick the right firstboot.xml to use
-if [[ $kiwi_iname = *Embedded* ]]; then
-    sed -i.orig 's/firstboot.xml/firstboot-embedded.xml/g' /etc/sysconfig/firstboot
-else
-    sed -i.orig 's/firstboot.xml/firstboot-standard.xml/g' /etc/sysconfig/firstboot
-fi
+
+# 8/14/2014 - Removing this logic and going with one appliance build
+#if [[ $kiwi_iname = *Embedded* ]]; then
+#    sed -i.orig 's/firstboot.xml/firstboot-embedded.xml/g' /etc/sysconfig/firstboot
+#else
+#    sed -i.orig 's/firstboot.xml/firstboot-standard.xml/g' /etc/sysconfig/firstboot
+#fi
+
+sed -i.orig 's/firstboot.xml/firstboot-suse-cloud.xml/g' /etc/sysconfig/firstboot
 
 # Enable firstboot
 touch /var/lib/YaST2/reconfig_system
