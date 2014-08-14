@@ -205,29 +205,25 @@ install_cloud_admin() {
 
 main() {
     echo_summary "Preparing..."
-    if [[ $IMAGE_TYPE != *Embedded* ]]; then
-        echo_summary "Syncing SMT"
-        smt-ncc-sync
-    fi
-    if [[ $IMAGE_TYPE != *Embedded* ]]; then
-        echo_summary "Mirroring SMT repos... This will take awhile"
-        mirror_smt_repos
-    else    
-        echo_summary "Embedded Image: Skipping..."
-    fi
-    if [[ $IMAGE_TYPE != *Embedded* ]]; then
-        echo_summary "Linking SMT repos properly"
-        link_smt_repos
-    else
-        echo_summary "Embedded Image: Skipping..."
-    fi
-    if [[ $IMAGE_TYPE != *Embedded* ]]; then
-        echo_summary "Disabling remote repos..." 
-        remove_ncc_repos 
-    else
-        echo_summary "Embedded Image: Skipping..."
-    fi
-    setup_local_cloud_updates_repos
+# Removing for SUSE Cloud 4
+#    if [[ $IMAGE_TYPE != *Embedded* ]]; then
+#        echo_summary "Syncing SMT"
+#        smt-ncc-sync
+#    fi
+#    if [[ $IMAGE_TYPE != *Embedded* ]]; then
+#        echo_summary "Mirroring SMT repos... This will take awhile"
+#        mirror_smt_repos
+#    else    
+#        echo_summary "Embedded Image: Skipping..."
+#    fi
+    echo_summary "Linking SMT repos properly"
+    
+    link_smt_repos
+    
+    remove_ncc_repos 
+    
+#    setup_local_cloud_updates_repos
+
     install_cloud_admin
     echo_summary "Clean up"
     # Cleanup firstboot
