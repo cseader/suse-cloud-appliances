@@ -9,16 +9,16 @@
 # Contact: feedback@susestudio.com
 # ============================================================================
 
-image_file='image/SUSE_OpenStack_Cloud_4_Admin.x86_64-1.1.0.preload.iso'
+image_file='image/SUSE_OpenStack_Cloud_4_Admin.x86_64-4.0.0.preload.iso'
 image_arch='x86_64'
 schema_ver='5.2'
 base_system='SLES11_SP3'
 uefi_enabled='false'
-declare -a repos=("SLES 11 SP3 x86_64" "SLES 11 SP3 Updates x86_64" "SLE 11 SP3 SDK x86_64" "SLE 11 SP3 SDK Updates x86_64")
+declare -a repos=("SLES 11 SP3 x86_64" "SLES 11 SP3 Updates x86_64" "SLE 11 SP3 SDK x86_64" "SLE 11 SP3 SDK Updates x86_64" "SLE 11 SP3 SMT x86_64" "SLE 11 SP3 SMT Updates x86_64")
 
 dir="$(dirname $0)"
 src="$dir/source"
-dst="$dir/image25"
+dst="$dir/image"
 
 if ! [ -d "$src/" ] || ! [ -f "$src/config.xml" ]; then
   printf "%s: %s\n" \

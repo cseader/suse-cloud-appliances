@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<image name='SUSE_Cloud_4_Admin_Embedded' displayname='SUSE_Cloud_4_Admin_Embedded' schemaversion='5.2'>
+<image name='SUSE_Cloud_4_Admin' displayname='SUSE_Cloud_4_Admin' schemaversion='5.2'>
   <description type='system'>
     <author>cameron seader</author>
     <contact>studio-devel@suse.de</contact>
@@ -24,7 +24,7 @@
   <packages type='image' patternType='onlyRequired'>
     <opensusePattern name='Minimal'/>
     <opensusePattern name='x11'/>
-    <opensusePattern name='lamp_server'/>
+    <opensusePattern name='SMT'/>
     <opensusePattern name='base'/>
     <package name='rsync'/>
     <package name='install-initrd'/>
@@ -123,5 +123,11 @@
   </repository>
   <repository type='rpm-md'>
     <source path='{SLE 11 SP3 SDK Updates x86_64}'/>
+  </repository>
+  <repository type='yast2'>
+    <source path='{SLE 11 SP3 SMT x86_64}'/>
+  </repository>
+  <repository type='rpm-md'>
+    <source path='{SLE 11 SP3 SMT Updates x86_64}'/>
   </repository>
 </image>

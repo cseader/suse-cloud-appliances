@@ -9,7 +9,7 @@ REPOSDIR="/srv/tftpboot/repos"
 SMTREPOS="/srv/www/htdocs/repo/"
 IMAGE_TYPE=`grep kiwi_iname /studio/profile`
 LOGFILE='/var/log/prepare-admin1.log'
-CLOUDISO="SUSE-CLOUD-4-x86_64-Build0008-Media1.iso"
+CLOUDISO="SUSE-CLOUD-4-x86_64-GMC-DVD1.iso"
 DEV=1
 
 # Infrastructure for nice output/logging
@@ -44,35 +44,46 @@ setup_local_smt() {
 }
 
 setup_local_sles_repos() {
+    echo "Adding SLES 11 SP3 Media/DEPS repos"
     mkdir -p /srv/tftpboot/suse-11.3/install/
-    # mount SLES 11 SP3 ISO
-    mount -o loop $ISODIR/SLES-11-SP3-DVD-x86_64-GM-DVD1.iso /srv/tftpboot/suse-11.3/install
+    # mount SLES 11 SP3 ISO and DEPS ISO and extract contents to /srv/tftpboot/suse-11.3/install/
+    for ISO in SLES-11-SP3-DVD-x86_64-GM-DVD1.iso SUSE-CLOUD-4-DEPS-x86_64-GMC-DVD.iso; do
+        mount -o loop $ISODIR/$ISO /mnt
+        echo "extracting $ISO"
+        rsync -av /mnt/ /srv/tftpboot/suse-11.3/install/
+        umount /mnt
+        echo "extracting $ISO Complete"
+    done
     # Add repos to zypper
     zypper --gpg-auto-import-keys refresh
     zypper ar --refresh file:///srv/tftpboot/suse-11.3/install/ "SLES 11 SP3 Media"
-    if [[ $IMAGE_TYPE = *Embedded* ]]; then
-        zypper ar --refresh file://$REPOSDIR/SLES11-SP3-Updates/ "SLES 11 SP3 Updates"
-    else
-        echo "Standard Image: Adding SLES Updates repo later"
-    fi
+    # Removing reference to two images
+    #if [[ $IMAGE_TYPE = *Embedded* ]]; then
+    #    zypper ar --refresh file://$REPOSDIR/SLES11-SP3-Updates/ "SLES 11 SP3 Updates"
+    #else
+    #    echo "Standard Image: Adding SLES Updates repo later"
+    #fi
 }
 
 setup_local_cloud_repos() {
     mkdir -p $REPOSDIR/Cloud/
     # mount SUSE Cloud 4 ISO
-    mount -o loop $ISODIR/$CLOUDISO $REPOSDIR/Cloud
+    mount -o loop $ISODIR/$CLOUDISO /mnt
+    rsync -av /mnt/ $REPOSDIR/Cloud/
+    umount /mnt
     # Add repos to zypper
     zypper --gpg-auto-import-keys refresh
     zypper ar --refresh file://$REPOSDIR/Cloud/ "SUSE-Cloud-4"
-    if [[ $IMAGE_TYPE = *Embedded* && $DEV = 0 ]]; then
-        zypper ar --refresh file://$REPOSDIR/SUSE-Cloud-4-Updates/ "SUSE-Cloud-4-Updates"
-    else
-        if [[ $DEV = 1 ]]; then
-            echo "Devel Image: Skipping..."
-        else
-            echo "Standard Image: Setting this up later"
-        fi
-    fi
+    # Removing Image Type reference
+    #if [[ $IMAGE_TYPE = *Embedded* && $DEV = 0 ]]; then
+    #    zypper ar --refresh file://$REPOSDIR/SUSE-Cloud-4-Updates/ "SUSE-Cloud-4-Updates"
+    #else
+    #    if [[ $DEV = 1 ]]; then
+    #        echo "Devel Image: Skipping..."
+    #    else
+    #        echo "Standard Image: Setting this up later"
+    #    fi
+    #fi
 }
 
 setup_fstab_iso_mounts() {
@@ -87,21 +98,21 @@ setup_local_smt_repo() {
 }
 
 install_cloud_admin() {
-    if [[ $IMAGE_TYPE = *Embedded* ]]; then
+    #if [[ $IMAGE_TYPE = *Embedded* ]]; then
         zypper --gpg-auto-import-keys refresh
         zypper up -y --auto-agree-with-licenses --force-resolution
         zypper in -y --auto-agree-with-licenses --force-resolution -t pattern cloud_admin
         zypper in -y --auto-agree-with-licenses --force-resolution ipmitool
-    else
-        echo "Standard Image: Installing pattern cloud_admin later"
-    fi
+   # else
+   #     echo "Standard Image: Installing pattern cloud_admin later"
+   # fi
 }
 
 main() {
-    setup_local_smt
+#    setup_local_smt
     setup_local_sles_repos
     setup_local_cloud_repos
-    setup_fstab_iso_mounts
+#    setup_fstab_iso_mounts
     setup_local_smt_repo
     install_cloud_admin    
     exit 0
