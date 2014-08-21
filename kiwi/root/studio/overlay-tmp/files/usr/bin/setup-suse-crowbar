@@ -204,7 +204,7 @@ install_cloud_admin() {
 }
 
 main() {
-    echo_summary "Preparing..."
+    echo_summary "Preparation Step 2..."
 # Removing for SUSE Cloud 4
 #    if [[ $IMAGE_TYPE != *Embedded* ]]; then
 #        echo_summary "Syncing SMT"

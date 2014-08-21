@@ -70,13 +70,9 @@ baseUpdateSysConfig /etc/sysconfig/windowmanager DEFAULT_WM icewm-session
 #--------------------------------------
 echo '** Setting up overlay files...'
 mkdir -p /etc/YaST2/
-mv /studio/overlay-tmp/files//etc/YaST2//firstboot-standard.xml /etc/YaST2//firstboot-standard.xml
-chown root:root /etc/YaST2//firstboot-standard.xml
-chmod 644 /etc/YaST2//firstboot-standard.xml
-mkdir -p /etc/YaST2/
-mv /studio/overlay-tmp/files//etc/YaST2//firstboot-embedded.xml /etc/YaST2//firstboot-embedded.xml
-chown root:root /etc/YaST2//firstboot-embedded.xml
-chmod 644 /etc/YaST2//firstboot-embedded.xml
+mv /studio/overlay-tmp/files//etc/YaST2//firstboot-standard.xml /etc/YaST2//firstboot-suse-cloud.xml
+chown root:root /etc/YaST2//firstboot-suse-cloud.xml
+chmod 644 /etc/YaST2//firstboot-suse-cloud.xml
 mkdir -p /etc/
 mv /studio/overlay-tmp/files//etc//modprobe.conf.local /etc//modprobe.conf.local
 chown root:root /etc//modprobe.conf.local

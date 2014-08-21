@@ -16,7 +16,7 @@
             <oem-swapsize>512</oem-swapsize>
           </oemconfig>
         </type>
-        <version>0.0.17</version>
+        <version>4.0.0</version>
         <packagemanager>ensconce</packagemanager>
         <rpm-check-signatures>false</rpm-check-signatures>
         <rpm-force>false</rpm-force>
@@ -135,10 +135,10 @@
       </packages>
     </image>
   </config>
-  <extra_config name="SUSE_Cloud_3_Admin">
+  <extra_config name="SUSE_OpenStack_Cloud_4_Admin">
     <appliance_id>1088418</appliance_id>
     <arch>x86_64</arch>
-    <version>0.0.17</version>
+    <version>4.0.0</version>
     <logo>a6/ea8e8397942dcde65aa0cdf13a3d7a</logo>
     <background>da/17a1bd47b33fd3f0cbf400634aff70</background>
     <base_system>SLES11_SP3</base_system>

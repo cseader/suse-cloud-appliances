@@ -94,7 +94,8 @@ setup_fstab_iso_mounts() {
 setup_local_smt_repo() {
     zypper ar -c -t yast2 iso:/?iso=$ISODIR/SLE-11-SP3-SMT-GM-Media1.iso "SMT for SLES11SP3"
     zypper --gpg-auto-import-keys refresh
-    zypper in -y --auto-agree-with-licenses -t pattern SMT lamp_server   
+    # Removing since I have added the SMT Pattern to the image
+    #zypper in -y --auto-agree-with-licenses -t pattern SMT lamp_server   
 }
 
 install_cloud_admin() {
