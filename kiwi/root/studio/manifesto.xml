@@ -174,10 +174,8 @@
       <file name="SLE-11-SP3-SMT-GM-Media1.md5" path="/srv/tftpboot/iso/" owner="root" group="root" perms="644" type="file" md5="dac86acb3708d13989ef44aacc1eeed4"/>
       <file name="SLES-11-SP3-DVD-x86_64-GM-DVD1.iso" path="/srv/tftpboot/iso/" owner="root" group="root" perms="644" type="file" md5="480b70d50cbb538382dc2b9325221e1b"/>
       <file name="SLES-11-SP3-DVD-x86_64-GM-DVD1.md5" path="/srv/tftpboot/iso/" owner="root" group="root" perms="644" type="file" md5="a90af5e85a2063f6cb1e3689c2a9fc70"/>
-      <file name="SUSE-CLOUD-4-x86_64-GMC-DVD1.iso" path="/srv/tftpboot/iso/" owner="root" group="root" perms="644" type="file" md5="c6ed4823d39754145e42a4430e9bc549"/>
-      <file name="SUSE-CLOUD-4-x86_64-GMC-DVD1.md5" path="/srv/tftpboot/iso/" owner="root" group="root" perms="644" type="file" md5="0a3682faea56e3702cdbe295a87e8324"/>
-      <file name="SUSE-CLOUD-4-DEPS-x86_64-GMC-DVD.iso" path="/srv/tftpboot/iso/" owner="root" group="root" perms="644" type="file" md5="3a8db282f5aebc875c678d5ed23d1243"/>
-      <file name="SUSE-CLOUD-4-DEPS-x86_64-GMC-DVD.md5" path="/srv/tftpboot/iso/" owner="root" group="root" perms="644" type="file" md5="a97cb583f3853b59f2175b4ab30ed440"/>
+      <file name="SUSE-CLOUD-4-x86_64-GM-DVD1.iso" path="/srv/tftpboot/iso/" owner="root" group="root" perms="644" type="file" md5="c6ed4823d39754145e42a4430e9bc549"/>
+      <file name="SUSE-CLOUD-4-x86_64-GM-DVD1.md5" path="/srv/tftpboot/iso/" owner="root" group="root" perms="644" type="file" md5="0a3682faea56e3702cdbe295a87e8324"/>
       <file name="suse_studio_firstboot" path="/etc/init.d/" owner="root" group="root" perms="755" type="file" md5="e1ee4506eba3b66515e09ebdc2835b73"/>
     </overlay_files>
     <firewall>
