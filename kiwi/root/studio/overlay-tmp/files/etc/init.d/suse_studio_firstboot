@@ -7,9 +7,7 @@
 ISODIR="/srv/tftpboot/iso"
 REPOSDIR="/srv/tftpboot/repos"
 SMTREPOS="/srv/www/htdocs/repo/"
-IMAGE_TYPE=`grep kiwi_iname /studio/profile`
 LOGFILE='/var/log/prepare-admin1.log'
-CLOUDISO="SUSE-CLOUD-4-x86_64-GM-DVD1.iso"
 DEV=0
 
 # Infrastructure for nice output/logging
@@ -19,9 +17,11 @@ DEV=0
 exec > "$LOGFILE" 2>&1
 
 link_smt_repos() {
+    echo "Creating symlinks for SMT repos"
+    
+    # Creating symlinks for SMT repos that were extracted
     for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-4-{Pool,Updates} SLE11-HAE-SP3-{Pool,Updates}; do
         ln -s $SMTREPOS\$RCE/$REPO/sle-11-x86_64 $REPOSDIR/${REPO/.0/}
-        #ln -s $REPOSDIR/${REPO/.0/} $SMTREPOS\$RCE/$REPO/sle-11-x86_64
     done
 
     if [[ $DEV = 1 ]]; then
@@ -32,6 +32,7 @@ link_smt_repos() {
 }
 
 setup_local_smt() {
+    echo "Extracting SMT repo archives"
 
     mkdir -p /srv/www/htdocs/repo/\$RCE/
     for archive in /SLES11-SP3.tar /SUSE-Cloud-4.tar /SLE11-HAE-SP3.tar; do
@@ -39,12 +40,15 @@ setup_local_smt() {
         rm $archive
     done
     chown -R smt:www /srv/www/htdocs/repo/\$RCE/
+
     link_smt_repos
 }
 
 setup_local_sles_repos() {
-    echo "Adding SLES 11 SP3 Media/DEPS repos"
+    echo "Adding SLES 11 SP3 repos"
+
     mkdir -p /srv/tftpboot/suse-11.3/install/
+
     # mount SLES 11 SP3 ISO and DEPS ISO and extract contents to /srv/tftpboot/suse-11.3/install/
     for ISO in SLES-11-SP3-DVD-x86_64-GM-DVD1.iso; do
         mount -o loop $ISODIR/$ISO /mnt
@@ -56,25 +60,16 @@ setup_local_sles_repos() {
     # Add repos to zypper
     zypper --gpg-auto-import-keys refresh
     zypper ar --refresh file:///srv/tftpboot/suse-11.3/install/ "SLES 11 SP3 Media"
-    # Removing reference to two images
-    #if [[ $IMAGE_TYPE = *Embedded* ]]; then
-    #    zypper ar --refresh file://$REPOSDIR/SLES11-SP3-Updates/ "SLES 11 SP3 Updates"
-    #else
-    #    echo "Standard Image: Adding SLES Updates repo later"
-    #fi
+    zypper ar --refresh file://$REPOSDIR/SLES11-SP3-Updates/ "SLES 11 SP3 Updates"
 }
 
 setup_local_cloud_repos() {
+    echo "Setting up Cloud repos"
+
     mkdir -p $REPOSDIR/Cloud/
 
     # create a fake repo so the SUSE Cloud 4 ISO is not required
     createrepo $REPOSDIR/Cloud/
-
-    # mount SUSE Cloud 4 ISO
-    # Removing 8/22/2014
-    #mount -o loop $ISODIR/$CLOUDISO /mnt
-    #rsync -av /mnt/ $REPOSDIR/Cloud/
-    #umount /mnt
 
     # Add repos to zypper
     zypper --gpg-auto-import-keys refresh
@@ -84,18 +79,6 @@ setup_local_cloud_repos() {
     else
         echo "Devel Image: Skipping..."
     fi
-}
-
-setup_fstab_iso_mounts() {
-    echo "$ISODIR/SLES-11-SP3-DVD-x86_64-GM-DVD1.iso    /srv/tftpboot/suse-11.3/install   iso9660   loop,auto   0 0" >> /etc/fstab
-    echo "$ISODIR/$CLOUDISO    $REPOSDIR/Cloud   iso9660   loop,auto   0 0" >> /etc/fstab
-}
-
-setup_local_smt_repo() {
-    zypper ar -c -t yast2 iso:/?iso=$ISODIR/SLE-11-SP3-SMT-GM-Media1.iso "SMT for SLES11SP3"
-    zypper --gpg-auto-import-keys refresh
-    # Removing since I have added the SMT Pattern to the image
-    #zypper in -y --auto-agree-with-licenses -t pattern SMT lamp_server   
 }
 
 install_cloud_admin() {
@@ -109,9 +92,10 @@ main() {
     setup_local_smt
     setup_local_sles_repos
     setup_local_cloud_repos
-#    setup_fstab_iso_mounts
-#    setup_local_smt_repo
     install_cloud_admin    
+    echo "Clean up"
+    # Cleanup firstboot
+    mv /etc/init.d/suse_studio_firstboot /tmp/
     exit 0
 }
 

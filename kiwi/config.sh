@@ -105,14 +105,6 @@ mkdir -p /etc/sysconfig/network/
 mv /studio/overlay-tmp/files//etc//sysconfig/network/ifcfg-eth0 /etc//sysconfig/network/ifcfg-eth0
 chown root:root /etc//sysconfig/network/ifcfg-eth0
 chmod 644 /etc//sysconfig/network/ifcfg-eth0
-mkdir -p /etc/init.d/
-mv /studio/overlay-tmp/files//etc/init.d//setup-crowbar /etc/init.d//setup-crowbar
-chown root:root /etc/init.d//setup-crowbar
-chmod 755 /etc/init.d//setup-crowbar
-mkdir -p /usr/bin/
-mv /studio/overlay-tmp/files//usr/bin//setup-suse-crowbar /usr/bin//setup-suse-crowbar
-chown root:root /usr/bin//setup-suse-crowbar
-chmod 755 /usr/bin//setup-suse-crowbar
 mkdir -p /srv/tftpboot/iso/
 mv /studio/overlay-tmp/files//srv/tftpboot/iso//SLES-11-SP3-DVD-x86_64-GM-DVD1.iso /srv/tftpboot/iso//SLES-11-SP3-DVD-x86_64-GM-DVD1.iso
 chown root:root /srv/tftpboot/iso//SLES-11-SP3-DVD-x86_64-GM-DVD1.iso
