@@ -40,5 +40,3 @@ sed -i.orig 's/firstboot.xml/firstboot-suse-cloud.xml/g' /etc/sysconfig/firstboo
 
 # Enable firstboot
 touch /var/lib/YaST2/reconfig_system
-
-exit 0

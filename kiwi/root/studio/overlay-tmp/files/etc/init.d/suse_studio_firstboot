@@ -34,11 +34,12 @@ link_smt_repos() {
 setup_local_smt() {
     echo "Extracting SMT repo archives"
 
-    mkdir -p /srv/www/htdocs/repo/\$RCE/
-    for archive in /SLES11-SP3.tar /SUSE-Cloud-4.tar /SLE11-HAE-SP3.tar; do
-        tar -xvf $archive -C $SMTREPOS\$RCE/
-        rm $archive
-    done
+    #uncomment for local build
+    #mkdir -p /srv/www/htdocs/repo/\$RCE/
+    #for archive in /SLES11-SP3.tar /SUSE-Cloud-4.tar /SLE11-HAE-SP3.tar; do
+    #    tar -xvf $archive -C $SMTREPOS\$RCE/
+    #    rm $archive
+    #done
     chown -R smt:www /srv/www/htdocs/repo/\$RCE/
 
     link_smt_repos
