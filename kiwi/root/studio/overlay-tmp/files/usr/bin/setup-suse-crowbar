@@ -216,15 +216,16 @@ main() {
 #    else    
 #        echo_summary "Embedded Image: Skipping..."
 #    fi
-    echo_summary "Linking SMT repos properly"
+#    echo_summary "Linking SMT repos properly"
     
-    link_smt_repos
-    
-    remove_ncc_repos 
+# removing because its redundant
+#    link_smt_repos
+   
+#    remove_ncc_repos 
     
 #    setup_local_cloud_updates_repos
 
-    install_cloud_admin
+#    install_cloud_admin
     echo_summary "Clean up"
     # Cleanup firstboot
     insserv setup-crowbar -r

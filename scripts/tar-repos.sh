@@ -6,7 +6,7 @@
 
 ALL_REPOS=(
     {SLES11,SLE11-HAE}-SP3-{Pool,Updates}
-    SUSE-Cloud-3.0-{Pool,Updates}
+    SUSE-Cloud-4-{Pool,Updates}
 )
 
 warn () {

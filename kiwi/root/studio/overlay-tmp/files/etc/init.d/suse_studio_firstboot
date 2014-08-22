@@ -19,12 +19,13 @@ DEV=0
 exec > "$LOGFILE" 2>&1
 
 link_smt_repos() {
-    for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-4.0-{Pool,Updates} SLE11-SMT-SP3-{Pool,Updates} SLE11-HAE-SP3-{Pool,Updates}; do
+    for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-4-{Pool,Updates} SLE11-HAE-SP3-{Pool,Updates}; do
         ln -s $SMTREPOS\$RCE/$REPO/sle-11-x86_64 $REPOSDIR/${REPO/.0/}
+        #ln -s $REPOSDIR/${REPO/.0/} $SMTREPOS\$RCE/$REPO/sle-11-x86_64
     done
 
     if [[ $DEV = 1 ]]; then
-        for REPO in SUSE-Cloud-4.0-{Pool,Updates}; do
+        for REPO in SUSE-Cloud-4-{Pool,Updates}; do
             rm $REPOSDIR/${REPO/.0/}
         done
     fi
@@ -33,9 +34,10 @@ link_smt_repos() {
 setup_local_smt() {
 
     mkdir -p /srv/www/htdocs/repo/\$RCE/
-    if cat /srv/tftpboot/txz/SUSE-Cloud-3-repos-03182014.txz.part0* | tar -xJv -C $SMTREPOS; then
-        rm /srv/tftpboot/txz/SUSE-Cloud-3-repos-03182014.txz.part0*
-    fi
+    for archive in /SLES11-SP3.tar /SUSE-Cloud-4.tar /SLE11-HAE-SP3.tar; do
+        tar -xJv $archive -C $SMTREPOS\$RCE/
+        rm $archive
+    done
     chown -R smt:www /srv/www/htdocs/repo/\$RCE/
     link_smt_repos
 }
@@ -64,13 +66,19 @@ setup_local_sles_repos() {
 
 setup_local_cloud_repos() {
     mkdir -p $REPOSDIR/Cloud/
+
+    # create a fake repo so the SUSE Cloud 4 ISO is not required
+    createrepo $REPOSDIR/Cloud/
+
     # mount SUSE Cloud 4 ISO
-    mount -o loop $ISODIR/$CLOUDISO /mnt
-    rsync -av /mnt/ $REPOSDIR/Cloud/
-    umount /mnt
+    # Removing 8/22/2014
+    #mount -o loop $ISODIR/$CLOUDISO /mnt
+    #rsync -av /mnt/ $REPOSDIR/Cloud/
+    #umount /mnt
+
     # Add repos to zypper
     zypper --gpg-auto-import-keys refresh
-    zypper ar --refresh file://$REPOSDIR/Cloud/ "SUSE-Cloud-4"
+    zypper ar --refresh file://$REPOSDIR/SUSE-Cloud-4-Pool/ "SUSE-Cloud-4-Pool"
     if [[ $DEV = 0 ]]; then
         zypper ar --refresh file://$REPOSDIR/SUSE-Cloud-4-Updates/ "SUSE-Cloud-4-Updates"
     else
@@ -92,9 +100,9 @@ setup_local_smt_repo() {
 
 install_cloud_admin() {
     zypper --gpg-auto-import-keys refresh
-    zypper up -y --auto-agree-with-licenses --force-resolution
-    zypper in -y --auto-agree-with-licenses --force-resolution -t pattern cloud_admin
-    zypper in -y --auto-agree-with-licenses --force-resolution ipmitool
+    zypper up -n -y --auto-agree-with-licenses --force-resolution
+    zypper in -n -y --auto-agree-with-licenses --force-resolution -t pattern cloud_admin
+    zypper in -n -y --auto-agree-with-licenses --force-resolution ipmitool
 }
 
 main() {

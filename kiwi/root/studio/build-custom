@@ -26,9 +26,6 @@ chkconfig sshd on
 # Create mount point for ISO files
 mkdir -p /srv/tftpboot/iso
 
-# Create mount point for txz files
-mkdir -p /srv/tftpboot/txz
-
 # Create mountpoint directories for Cloud
 for MOUNTPOINT in /srv/tftpboot/suse-11.3/install /srv/tftpboot/repos/Cloud
 do
