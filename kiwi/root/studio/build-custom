@@ -35,18 +35,7 @@ do
     fi
 done
 
-# start service setup-crowbar
-insserv setup-crowbar
-
 # Pick the right firstboot.xml to use
-
-# 8/14/2014 - Removing this logic and going with one appliance build
-#if [[ $kiwi_iname = *Embedded* ]]; then
-#    sed -i.orig 's/firstboot.xml/firstboot-embedded.xml/g' /etc/sysconfig/firstboot
-#else
-#    sed -i.orig 's/firstboot.xml/firstboot-standard.xml/g' /etc/sysconfig/firstboot
-#fi
-
 sed -i.orig 's/firstboot.xml/firstboot-suse-cloud.xml/g' /etc/sysconfig/firstboot
 
 # Enable firstboot
