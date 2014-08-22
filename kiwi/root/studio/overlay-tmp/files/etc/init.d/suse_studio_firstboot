@@ -35,7 +35,7 @@ setup_local_smt() {
 
     mkdir -p /srv/www/htdocs/repo/\$RCE/
     for archive in /SLES11-SP3.tar /SUSE-Cloud-4.tar /SLE11-HAE-SP3.tar; do
-        tar -xJv $archive -C $SMTREPOS\$RCE/
+        tar -xvf $archive -C $SMTREPOS\$RCE/
         rm $archive
     done
     chown -R smt:www /srv/www/htdocs/repo/\$RCE/
@@ -100,7 +100,7 @@ setup_local_smt_repo() {
 
 install_cloud_admin() {
     zypper --gpg-auto-import-keys refresh
-    zypper up -n -y --auto-agree-with-licenses --force-resolution
+    zypper up -y --auto-agree-with-licenses --force-resolution
     zypper in -n -y --auto-agree-with-licenses --force-resolution -t pattern cloud_admin
     zypper in -n -y --auto-agree-with-licenses --force-resolution ipmitool
 }

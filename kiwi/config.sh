@@ -121,14 +121,6 @@ mkdir -p /srv/tftpboot/iso/
 mv /studio/overlay-tmp/files//srv/tftpboot/iso//SLES-11-SP3-DVD-x86_64-GM-DVD1.md5 /srv/tftpboot/iso//SLES-11-SP3-DVD-x86_64-GM-DVD1.md5
 chown root:root /srv/tftpboot/iso//SLES-11-SP3-DVD-x86_64-GM-DVD1.md5
 chmod 644 /srv/tftpboot/iso//SLES-11-SP3-DVD-x86_64-GM-DVD1.md5
-mkdir -p /srv/tftpboot/iso/
-mv /studio/overlay-tmp/files//srv/tftpboot/iso//SUSE-CLOUD-4-x86_64-GM-DVD1.iso /srv/tftpboot/iso//SUSE-CLOUD-4-x86_64-GM-DVD1.iso
-chown root:root /srv/tftpboot/iso//SUSE-CLOUD-4-x86_64-GM-DVD1.iso
-chmod 644 /srv/tftpboot/iso//SUSE-CLOUD-4-x86_64-GM-DVD1.iso
-mkdir -p /srv/tftpboot/iso/
-mv /studio/overlay-tmp/files//srv/tftpboot/iso//SUSE-CLOUD-4-x86_64-GM-DVD1.md5 /srv/tftpboot/iso//SUSE-CLOUD-4-x86_64-GM-DVD1.md5
-chown root:root /srv/tftpboot/iso//SUSE-CLOUD-4-x86_64-GM-DVD1.md5
-chmod 644 /srv/tftpboot/iso//SUSE-CLOUD-4-x86_64-GM-DVD1.md5
 mkdir -p /
 mv /studio/overlay-tmp/files//SLES11-SP3.tar /SLES11-SP3.tar
 chown root:root /SLES11-SP3.tar

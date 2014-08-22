@@ -165,18 +165,23 @@
     <startup_programs>
     </startup_programs>
     <overlay_files remove="">
-      <file name="firstboot.xml" path="/etc/YaST2/" owner="root" group="root" perms="644" type="file" md5="ca98c36d0368083643d7e3cbbb6c6a43"/>
+      <file name="firstboot-suse-cloud.xml" path="/etc/YaST2/" owner="root" group="root" perms="644" type="file" md5="8a6f272520ca731ad1a12a2536a4d547"/>
       <file name="modprobe.conf.local" path="/etc/" owner="root" group="root" perms="644" type="file" md5="295c615cfde8a6a2ad268d595bc4b5a6"/>
-      <file name="motd" path="/etc/" owner="root" group="root" perms="644" type="file" md5="fa23f35444dd1a9a49ae58db4efa57d0"/>
-      <file name="setup-crowbar" path="/etc/init.d/" owner="root" group="root" perms="755" type="file" md5="1125e821f1a23a34005169f3a425260f"/>
-      <file name="setup-suse-crowbar" path="/usr/bin/" owner="root" group="root" perms="755" type="file" md5="2dce66194aae2fa7cde9d01aaddc9583"/>
-      <file name="SLE-11-SP3-SMT-GM-Media1.iso" path="/srv/tftpboot/iso/" owner="root" group="root" perms="644" type="file" md5="d1e3742b5f382af02a3f1e6a85b1f2f9"/>
-      <file name="SLE-11-SP3-SMT-GM-Media1.md5" path="/srv/tftpboot/iso/" owner="root" group="root" perms="644" type="file" md5="dac86acb3708d13989ef44aacc1eeed4"/>
+      <file name="motd" path="/etc/" owner="root" group="root" perms="644" type="file" md5="807492e35c157a03a192c2a7114c3c36"/>
+      <file name="hosts" path="/etc/" owner="root" group="root" perms="644" type="file" md5="b996a495b242b93f0b7221a13f185951"/>
+      <file name="HOSTNAME" path="/etc/" owner="root" group="root" perms="644" type="file" md5="c5facd296ecf6500b9bccaac162ffc85"/>
+      <file name="config" path="/etc/sysconfig/network" owner="root" group="root" perms="644" type="file" md5="f7f79616e53ed8a0fb2816a882f77ebc"/>
+      <file name="dhcp" path="/etc/sysconfig/network" owner="root" group="root" perms="644" type="file" md5="c499a835bf9a48892c8dd9ce1fffccd5"/>
+      <file name="routes" path="/etc/sysconfig/network" owner="root" group="root" perms="644" type="file" md5="c952f35b28266a61fbefc56f34005191"/>
+      <file name="ifcfg-eth0" path="/etc/sysconfig/network" owner="root" group="root" perms="644" type="file" md5="b1410bec46f6fa4aef863e0d6cc4c752"/>
+      <file name="setup-crowbar" path="/etc/init.d/" owner="root" group="root" perms="755" type="file" md5="1f59e8a66806e69154391a74370ec601"/>
+      <file name="setup-suse-crowbar" path="/usr/bin/" owner="root" group="root" perms="755" type="file" md5="4fa46057cd259eb2804b823e42169995"/>
       <file name="SLES-11-SP3-DVD-x86_64-GM-DVD1.iso" path="/srv/tftpboot/iso/" owner="root" group="root" perms="644" type="file" md5="480b70d50cbb538382dc2b9325221e1b"/>
       <file name="SLES-11-SP3-DVD-x86_64-GM-DVD1.md5" path="/srv/tftpboot/iso/" owner="root" group="root" perms="644" type="file" md5="a90af5e85a2063f6cb1e3689c2a9fc70"/>
-      <file name="SUSE-CLOUD-4-x86_64-GM-DVD1.iso" path="/srv/tftpboot/iso/" owner="root" group="root" perms="644" type="file" md5="c6ed4823d39754145e42a4430e9bc549"/>
-      <file name="SUSE-CLOUD-4-x86_64-GM-DVD1.md5" path="/srv/tftpboot/iso/" owner="root" group="root" perms="644" type="file" md5="0a3682faea56e3702cdbe295a87e8324"/>
-      <file name="suse_studio_firstboot" path="/etc/init.d/" owner="root" group="root" perms="755" type="file" md5="e1ee4506eba3b66515e09ebdc2835b73"/>
+      <file name="SLES11-SP3.tar" path="/" owner="root" group="root" perms="755" type="file" md5="8aa1f1e3ff1966eff8eca965bc7cf931"/>
+      <file name="SLE11-HAE-SP3.tar" path="/" owner="root" group="root" perms="755" type="file" md5="bd88b560e4dc081d1ce9415c5cdfdb06"/>
+      <file name="SUSE-Cloud-4.tar" path="/" owner="root" group="root" perms="755" type="file" md5="abf18033a98d4409aa0fe0e7f1de6c67"/>
+      <file name="suse_studio_firstboot" path="/etc/init.d/" owner="root" group="root" perms="755" type="file" md5="c3da6431740799ba3cfa9"/>
     </overlay_files>
     <firewall>
       <firewall_enabled>no</firewall_enabled>
