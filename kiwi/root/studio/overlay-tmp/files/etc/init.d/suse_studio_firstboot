@@ -36,8 +36,8 @@ setup_local_smt() {
 
     #uncomment for local build
     #mkdir -p /srv/www/htdocs/repo/\$RCE/
-    #for archive in /SLES11-SP3.tar /SUSE-Cloud-4.tar /SLE11-HAE-SP3.tar; do
-    #    tar -xvf $archive -C $SMTREPOS\$RCE/
+    #for archive in /SLES11-SP3-Pool.tar.bz2 /SLES11-SP3-Updates.tar.bz2 /SLE11-HAE-SP3-Pool.tar.bz2 /SLE11-HAE-SP3-Updates.tar.bz2 /SUSE-Cloud-4-Pool.tar.bz2 /SUSE-Cloud-4-Updates.tar.bz2; do
+    #    tar -xjvf $archive -C $SMTREPOS\$RCE/
     #    rm $archive
     #done
     chown -R smt:www /srv/www/htdocs/repo/\$RCE/

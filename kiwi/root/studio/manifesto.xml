@@ -165,9 +165,9 @@
     <startup_programs>
     </startup_programs>
     <overlay_files remove="">
-      <file name="firstboot-suse-cloud.xml" path="/etc/YaST2/" owner="root" group="root" perms="644" type="file" md5="8a6f272520ca731ad1a12a2536a4d547"/>
+      <file name="firstboot-suse-cloud.xml" path="/etc/YaST2/" owner="root" group="root" perms="644" type="file" md5="c461d9539468e2f9d2eb4712eae7482e"/>
       <file name="modprobe.conf.local" path="/etc/" owner="root" group="root" perms="644" type="file" md5="295c615cfde8a6a2ad268d595bc4b5a6"/>
-      <file name="motd" path="/etc/" owner="root" group="root" perms="644" type="file" md5="807492e35c157a03a192c2a7114c3c36"/>
+      <file name="motd" path="/etc/" owner="root" group="root" perms="644" type="file" md5="4dd1ce9bb96e83096e042e5a3f7f6801"/>
       <file name="hosts" path="/etc/" owner="root" group="root" perms="644" type="file" md5="b996a495b242b93f0b7221a13f185951"/>
       <file name="HOSTNAME" path="/etc/" owner="root" group="root" perms="644" type="file" md5="c5facd296ecf6500b9bccaac162ffc85"/>
       <file name="config" path="/etc/sysconfig/network" owner="root" group="root" perms="644" type="file" md5="f7f79616e53ed8a0fb2816a882f77ebc"/>
