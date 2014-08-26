@@ -42,7 +42,7 @@ setup_local_smt() {
     #done
 
     # Create repo directories and fake repos for SLES 11 SP3 {Pool,Updates} and SLES 11 SP3 HAE {Pool,Updates}
-    for rdir in "SLES11-SP3-Pool/sle-11-x86_64/" "SLES11-SP3-Updates/sle-11-x86_64/" "SLE11-HAE-SP3-Pool/sle-11-x86_64/" "SLE11-HAE-SP3-Updates/sle-11-x86_64/"; do
+    for rdir in SLES11-SP3-{Pool,Updates}/sle-11-x86_64/ SLE11-HAE-SP3-{Pool,Updates}/sle-11-x86_64/; do
         mkdir -p /srv/www/htdocs/repo/\$RCE/$rdir
 	createrepo /srv/www/htdocs/repo/\$RCE/$rdir
     done
