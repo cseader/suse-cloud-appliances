@@ -19,10 +19,6 @@
 # Remove EULA on first boot
 rm /etc/YaST2/licenses/license.txt
 
-# Auto-start services on boot
-chkconfig ntp on
-chkconfig sshd on
-
 # Create mount point for ISO files
 mkdir -p /srv/tftpboot/iso
 
