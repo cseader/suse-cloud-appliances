@@ -56,19 +56,29 @@ setup_local_sles_repos() {
 
     # mount SLES 11 SP3 ISO and extract contents to the proper location /srv/tftpboot/suse-11.3/install/
     for ISO in SLES-11-SP3-DVD-x86_64-GM-DVD1.iso SUSE-CLOUD-4-DEPS-x86_64-GMC-DVD.iso; do
-        if $ISO == SLES-11-SP3-DVD-x86_64-GM-DVD1.iso; then
-	    # extraction location for SLES 11 SP3 Media
-	    xloc="/srv/tftpboot/suse-11.3/install/"    
-	else 
-	    # extraction location for Cloud DEPS
+        if [[ $ISO == SLES-11-SP3-DVD-x86_64-GM-DVD1.iso ]]; then
+            # extraction location for SLES 11 SP3 Media
+            xloc="/srv/tftpboot/suse-11.3/install/"
+        else
+            # extraction location for Cloud DEPS
             xloc="/srv/tftpboot/repos/Cloud-DEPS/"
         fi
-        mkdir -p $xloc
-	mount -o loop $ISODIR/$ISO /mnt
-        echo "extracting $ISO"
-        rsync -av /mnt/ $xloc
-        umount /mnt
-        echo "extracting $ISO Complete"
+        if [[ ! -d $xloc ]]; then
+            mkdir -p $xloc
+        else
+            echo "directory exists"
+        fi
+        if [[ ! -a $ISODIR/$ISO ]]; then
+            echo "$ISO doesn't exist"
+        fi
+        if ! mount -o loop $ISODIR/$ISO /mnt; then
+            echo "Unable to mount"
+        else
+            echo "extracting $ISO"
+            rsync -av /mnt/ $xloc
+            umount /mnt
+            echo "extracting $ISO Complete"
+        fi
     done
     # Add repos to zypper
     zypper --gpg-auto-import-keys refresh
