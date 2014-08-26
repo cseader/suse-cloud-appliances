@@ -36,16 +36,17 @@ setup_local_smt() {
 
     #uncomment for local build
     #mkdir -p /srv/www/htdocs/repo/\$RCE/
-    #for archive in /SUSE-Cloud-4-Pool.tar.bz2 /SUSE-Cloud-4-Updates.tar.bz2; do
+    #for archive in /SLES11-SP3-Pool.tar.bz2 /SLES11-SP3-Updates.tar.bz2 /SLE11-HAE-SP3-Pool.tar.bz2 /SLE11-HAE-SP3-Updates.tar.bz2 /SUSE-Cloud-4-Pool.tar.bz2 /SUSE-Cloud-4-Updates.tar.bz2; do
     #    tar -xjvf $archive -C $SMTREPOS\$RCE/
     #    rm $archive
     #done
 
     # Create repo directories and fake repos for SLES 11 SP3 {Pool,Updates} and SLES 11 SP3 HAE {Pool,Updates}
-    for rdir in SLES11-SP3-{Pool,Updates}/sle-11-x86_64/ SLE11-HAE-SP3-{Pool,Updates}/sle-11-x86_64/; do
-        mkdir -p /srv/www/htdocs/repo/\$RCE/$rdir
-	createrepo /srv/www/htdocs/repo/\$RCE/$rdir
-    done
+    # uncomment when you use DEPS ISO
+    #for rdir in SLES11-SP3-{Pool,Updates} SLE11-HAE-SP3-{Pool,Updates}; do
+    #    mkdir -p /srv/www/htdocs/repo/\$RCE/$rdir/sle-11-x86_64/
+    #	createrepo /srv/www/htdocs/repo/\$RCE/$rdir/sle-11-x86_64/
+    #done
     chown -R smt:www /srv/www/htdocs/repo/\$RCE/
 
     link_smt_repos
@@ -55,7 +56,8 @@ setup_local_sles_repos() {
     echo "Adding SLES 11 SP3 repos"
 
     # mount SLES 11 SP3 ISO and extract contents to the proper location /srv/tftpboot/suse-11.3/install/
-    for ISO in SLES-11-SP3-DVD-x86_64-GM-DVD1.iso SUSE-CLOUD-4-DEPS-x86_64-GMC-DVD.iso; do
+    # Removing DEPS ISO (SUSE-CLOUD-4-DEPS-x86_64-GMC-DVD.iso) add in later for DEPS Testing
+    for ISO in SLES-11-SP3-DVD-x86_64-GM-DVD1.iso; do
         if [[ $ISO == SLES-11-SP3-DVD-x86_64-GM-DVD1.iso ]]; then
             # extraction location for SLES 11 SP3 Media
             xloc="/srv/tftpboot/suse-11.3/install/"
@@ -81,10 +83,13 @@ setup_local_sles_repos() {
         fi
     done
     # Add repos to zypper
-    zypper --gpg-auto-import-keys refresh
     zypper ar --refresh file:///srv/tftpboot/suse-11.3/install/ "SLES 11 SP3 Media"
     # Add Cloud DEPS which contains all of the updated rpms for SLES 11 SP3 Updates and SLES 11 SP3 HAE Updates
-    zypper ar --refresh file:///srv/tftpboot/repos/Cloud-DEPS/ "Cloud DEPS"
+    # removing the addition of the DEPS Repo. Add back in later for DEPS Testing.
+    #zypper ar --refresh file:///srv/tftpboot/repos/Cloud-DEPS/ "Cloud DEPS"
+    # Add SLES 11 SP3 Updates repo
+    zypper ar --refresh file:///srv/tftpboot/repos/SLES11-SP3-Updates/ "SLES 11 SP3 Updates"
+    zypper --gpg-auto-import-keys refresh
 }
 
 setup_local_cloud_repos() {
@@ -96,17 +101,16 @@ setup_local_cloud_repos() {
     createrepo $REPOSDIR/Cloud/
 
     # Add repos to zypper
-    zypper --gpg-auto-import-keys refresh
     zypper ar --refresh file://$REPOSDIR/SUSE-Cloud-4-Pool/ "SUSE-Cloud-4-Pool"
     if [[ $DEV = 0 ]]; then
         zypper ar --refresh file://$REPOSDIR/SUSE-Cloud-4-Updates/ "SUSE-Cloud-4-Updates"
     else
         echo "Devel Image: Skipping..."
     fi
+    zypper --gpg-auto-import-keys refresh
 }
 
 install_cloud_admin() {
-    zypper --gpg-auto-import-keys refresh
     zypper up -y --auto-agree-with-licenses --force-resolution
     zypper in -n -y --auto-agree-with-licenses --force-resolution -t pattern cloud_admin
     zypper in -n -y --auto-agree-with-licenses --force-resolution ipmitool

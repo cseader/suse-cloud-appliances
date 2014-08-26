@@ -110,7 +110,7 @@
     <texts>
       <congratulate>
         <label>
-          &lt;p&gt;The installation of SUSE OpenStack Cloud 4 has completed successfully.&lt;/p&gt;
+          &lt;p&gt;The installation of SUSE OpenStack Cloud 4 Admin has completed successfully.&lt;/p&gt;
           &lt;p&gt;To finish setting up SUSE OpenStack Cloud 4 you will need to define the network.
           To help you with the network configuration refer to the deployment guide and
           companion deployment questionnaire.&lt;/p&gt;

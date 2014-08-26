@@ -176,7 +176,10 @@
       <file name="ifcfg-eth0" path="/etc/sysconfig/network" owner="root" group="root" perms="644" type="file" md5="b1410bec46f6fa4aef863e0d6cc4c752"/>
       <file name="SLES-11-SP3-DVD-x86_64-GM-DVD1.iso" path="/srv/tftpboot/iso/" owner="root" group="root" perms="644" type="file" md5="480b70d50cbb538382dc2b9325221e1b"/>
       <file name="SLES-11-SP3-DVD-x86_64-GM-DVD1.md5" path="/srv/tftpboot/iso/" owner="root" group="root" perms="644" type="file" md5="a90af5e85a2063f6cb1e3689c2a9fc70"/>
-      <file name="SUSE-CLOUD-4-DEPS-x86_64-GMC-DVD.iso" path="/srv/tftpboot/iso/" owner="root" group="root" perms="644" type="file" md5="3a8db282f5aebc875c678d5ed23d1243"/>
+      <file name="SLES11-SP3-Pool.tar.bz2" path="/" owner="root" group="root" perms="755" type="file" md5="7952798a4c43041bd85fc23e1b34b6e8"/>
+      <file name="SLES11-SP3-Updates.tar.bz2" path="/" owner="root" group="root" perms="755" type="file" md5="978a6b340c74da92e2abd2fc3119d723"/>
+      <file name="SLE11-HAE-SP3-Pool.tar.bz2" path="/" owner="root" group="root" perms="755" type="file" md5="6b0259db7b47eafbf0a93e33fb84af35"/>
+      <file name="SLE11-HAE-SP3-Updates.tar.bz2" path="/" owner="root" group="root" perms="755" type="file" md5="c93ee98d7e0f6048afc462bf0f1a15e4"/>
       <file name="SUSE-Cloud-4-Pool.tar.bz2" path="/" owner="root" group="root" perms="755" type="file" md5="ce9dc59e9123fd92b9efaec7323eb858"/>
       <file name="SUSE-Cloud-4-Updates.tar.bz2" path="/" owner="root" group="root" perms="755" type="file" md5="88abe3ab6924aaac9ca3e66001664071"/>
       <file name="suse_studio_firstboot" path="/etc/init.d/" owner="root" group="root" perms="755" type="file" md5="81c1d4450b0dd3ef505f131f5fa8d5e8"/>
