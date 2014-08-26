@@ -16,6 +16,10 @@
 # read in KIWI utility functions
 . /.kconfig
 
+# Auto-start services on boot
+chkconfig ntp on
+chkconfig sshd on
+
 # Remove EULA on first boot
 rm /etc/YaST2/licenses/license.txt
 
