@@ -11,7 +11,7 @@ if [ -f /etc/init.d/suse_studio_firstboot ]; then
     echo "\/ __ .- |   SUSE OpenStack Cloud 4 Admin"
     echo " // //  @"
     echo ""
-    echo "    Running prepare step 1"
+    echo "    Running prepare step"
     echo "    This will take a few minutes..."
     printf "%*s" $COLUMNS |tr " " "="
     echo ""
