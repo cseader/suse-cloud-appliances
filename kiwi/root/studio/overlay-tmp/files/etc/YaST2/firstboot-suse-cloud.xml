@@ -111,21 +111,15 @@
       <congratulate>
         <label>
           &lt;p&gt;The installation of SUSE OpenStack Cloud 4 has completed successfully.&lt;/p&gt;
-          &lt;p&gt;  &lt;/p&gt;
-          &lt;p&gt;To finish setting up SUSE OpenStack Cloud 4 you will need to define the network.&lt;/p&gt;
-          &lt;p&gt;To help you with the network configuration refer to the deployment guide and&lt;/p&gt;
-          &lt;p&gt;companion deployment questionnaire.&lt;/p&gt;
-          &lt;p&gt;  &lt;/p&gt;
+          &lt;p&gt;To finish setting up SUSE OpenStack Cloud 4 you will need to define the network.
+          To help you with the network configuration refer to the deployment guide and
+          companion deployment questionnaire.&lt;/p&gt;
           &lt;p&gt;execute yast2 crowbar&lt;/p&gt;
-          &lt;p&gt;  &lt;/p&gt;
           &lt;p&gt;Once your network settings are all defined then continue the crowbar install&lt;/p&gt;
-          &lt;p&gt;  &lt;/p&gt;
           &lt;p&gt;execute screen install-suse-cloud&lt;/p&gt;
-          &lt;p&gt;  &lt;/p&gt;
-          &lt;p&gt;Before you proceed with install-suse-cloud its important that the network&lt;/p&gt;
-          &lt;p&gt;settings are properly defined and that you have everything right otherwise&lt;/p&gt;
-          &lt;p&gt;you will need to start over.&lt;/p&gt;
-          &lt;p&gt;  &lt;/p&gt;
+          &lt;p&gt;Before you proceed with install-suse-cloud its important that the network
+          settings are properly defined and that you have everything right otherwise
+          you will need to start over.&lt;/p&gt;
           &lt;p&gt;Click Finish.&lt;/p&gt;
           &lt;p&gt;Please visit us at http://www.suse.com/&lt;/p&gt;
         </label>
