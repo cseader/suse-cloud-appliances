@@ -57,8 +57,8 @@ setup_local_sles_repos() {
 
     # mount SLES 11 SP3 ISO and extract contents to the proper location /srv/tftpboot/suse-11.3/install/
     # Removing DEPS ISO (SUSE-CLOUD-4-DEPS-x86_64-GMC-DVD.iso) add in later for DEPS Testing
-    for ISO in SUSE-CLOUD-4-DEPS-x86_64-Build0017-Media.iso; do
-        if [[ $ISO == SUSE-CLOUD-4-DEPS-x86_64-Build0017-Media.iso ]]; then
+    for ISO in SUSE-CLOUD-4-DEPS-x86_64-Build0022-Media.iso; do
+        if [[ $ISO == SUSE-CLOUD-4-DEPS-x86_64-Build0022-Media.iso ]]; then
             # extraction location for SLES 11 SP3 Media
             xloc="/srv/tftpboot/suse-11.3/install/"
         else

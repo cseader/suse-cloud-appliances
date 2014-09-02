@@ -174,7 +174,7 @@
       <file name="dhcp" path="/etc/sysconfig/network" owner="root" group="root" perms="644" type="file" md5="c499a835bf9a48892c8dd9ce1fffccd5"/>
       <file name="routes" path="/etc/sysconfig/network" owner="root" group="root" perms="644" type="file" md5="c952f35b28266a61fbefc56f34005191"/>
       <file name="ifcfg-eth0" path="/etc/sysconfig/network" owner="root" group="root" perms="644" type="file" md5="b1410bec46f6fa4aef863e0d6cc4c752"/>
-      <file name="SUSE-CLOUD-4-DEPS-x86_64-Build0017-Media.iso" path="/srv/tftpboot/iso/" owner="root" group="root" perms="644" type="file" md5="1f4f56c142fdc092c37622406473d128"/>
+      <file name="SUSE-CLOUD-4-DEPS-x86_64-Build0022-Media.iso" path="/srv/tftpboot/iso/" owner="root" group="root" perms="644" type="file" md5="bfcac7a3925c5d17ffd65f14456bb528"/>
       <file name="SUSE-Cloud-4-Pool.tar.bz2" path="/" owner="root" group="root" perms="755" type="file" md5="ce9dc59e9123fd92b9efaec7323eb858"/>
       <file name="SUSE-Cloud-4-Updates.tar.bz2" path="/" owner="root" group="root" perms="755" type="file" md5="88abe3ab6924aaac9ca3e66001664071"/>
       <file name="suse_studio_firstboot" path="/etc/init.d/" owner="root" group="root" perms="755" type="file" md5="81c1d4450b0dd3ef505f131f5fa8d5e8"/>
