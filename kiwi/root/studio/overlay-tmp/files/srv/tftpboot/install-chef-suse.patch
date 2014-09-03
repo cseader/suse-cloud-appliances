@@ -1,5 +1,5 @@
 --- install-chef-suse.sh.09032014	2014-09-03 11:05:34.629212426 -0600
-+++ install-chef-suse.sh	2014-09-03 11:13:25.244326033 -0600
++++ install-chef-suse.sh	2014-09-03 11:37:51.836682784 -0600
 @@ -513,13 +513,19 @@
  # HAE add-on should remain optional for now
  REPOS_SKIP_CHECKS+=" SLE11-HAE-SP3-Pool SLE11-HAE-SP3-Updates"
@@ -26,3 +26,12 @@
  fi
  
  check_repo_content \
+@@ -546,7 +552,7 @@
+     fi
+ fi
+ 
+-check_repo_product SLES11-SP3-Pool        'SUSE Linux Enterprise Server 11 SP3'
++#check_repo_product SLES11-SP3-Pool        'SUSE Linux Enterprise Server 11 SP3'
+ check_repo_product SLES11-SP3-Updates     'SUSE Linux Enterprise Server 11 SP3'
+ check_repo_product SLE11-HAE-SP3-Pool     'SUSE Linux Enterprise High Availability Extension 11 SP3' 'false'
+ check_repo_product SLE11-HAE-SP3-Updates  'SUSE Linux Enterprise High Availability Extension 11 SP3' 'false'

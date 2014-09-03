@@ -552,7 +552,7 @@ else
     fi
 fi
 
-check_repo_product SLES11-SP3-Pool        'SUSE Linux Enterprise Server 11 SP3'
+#check_repo_product SLES11-SP3-Pool        'SUSE Linux Enterprise Server 11 SP3'
 check_repo_product SLES11-SP3-Updates     'SUSE Linux Enterprise Server 11 SP3'
 check_repo_product SLE11-HAE-SP3-Pool     'SUSE Linux Enterprise High Availability Extension 11 SP3' 'false'
 check_repo_product SLE11-HAE-SP3-Updates  'SUSE Linux Enterprise High Availability Extension 11 SP3' 'false'
