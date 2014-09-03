@@ -1,0 +1,28 @@
+--- install-chef-suse.sh.09032014	2014-09-03 11:05:34.629212426 -0600
++++ install-chef-suse.sh	2014-09-03 11:13:25.244326033 -0600
+@@ -513,13 +513,19 @@
+ # HAE add-on should remain optional for now
+ REPOS_SKIP_CHECKS+=" SLE11-HAE-SP3-Pool SLE11-HAE-SP3-Updates"
+ 
+-check_repo_content \
+-    SLES11_SP3 \
+-    /srv/tftpboot/suse-11.3/install \
+-    d0bb700ab51c180200995dfdf5a6ade8
++MEDIA=/srv/tftpboot/suse-11.3/install
++
++if [ -f $MEDIA/content ] && egrep -q "REPOID.*/suse-cloud-deps/" $MEDIA/content; then
++    echo "Detected SUSE Cloud Deps media."
++else
++    check_repo_content \
++        SLES11_SP3 \
++        $MEDIA/install \
++        d0bb700ab51c180200995dfdf5a6ade8
++fi
+ 
+-if [ -L /srv/tftpboot/suse-11.3/install ]; then
+-    die "/srv/tftpboot/suse-11.3/install cannot be a symbolic link"
++if [ -L $MEDIA ]; then
++    die "$MEDIA cannot be a symbolic link"
+ fi
+ 
+ check_repo_content \

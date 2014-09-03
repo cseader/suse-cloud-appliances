@@ -48,6 +48,7 @@
         <opensusePattern name="x11"/>
         <opensusePattern name="SMT"/>
         <opensusePattern name="base"/>
+        <package name="patch"/>
         <package name="rsync"/>
         <package name="install-initrd"/>
         <package name="kernel-firmware"/>
