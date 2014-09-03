@@ -116,11 +116,23 @@ install_cloud_admin() {
     zypper in -n -y --auto-agree-with-licenses --force-resolution ipmitool
 }
 
+patch_install_suse_cloud() {
+
+    patch_bin=/usr/bin/patch 
+
+    if [[ ! -x $patch_bin ]]; then
+        echo "patch is not installed"
+    else
+        $patch_bin -d /opt/dell/bin/ < /srv/tftpboot/install-chef-suse.patch
+    fi
+}
+
 main() {
     setup_local_smt
     setup_local_sles_repos
     setup_local_cloud_repos
-    install_cloud_admin    
+    install_cloud_admin
+    patch_install_suse_cloud
     echo "Clean up"
     # Cleanup firstboot
     mv /etc/init.d/suse_studio_firstboot /tmp/
