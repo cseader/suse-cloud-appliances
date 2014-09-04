@@ -8,6 +8,7 @@ ISODIR="/srv/tftpboot/iso"
 REPOSDIR="/srv/tftpboot/repos"
 SMTREPOS="/srv/www/htdocs/repo/"
 LOGFILE='/var/log/prepare-admin1.log'
+DEPSISO='SUSE-CLOUD-SLE11-SP3-DEPS-x86_64-Build0005-Media.iso'
 DEV=0
 
 # Infrastructure for nice output/logging
@@ -57,8 +58,8 @@ setup_local_sles_repos() {
 
     # mount SLES 11 SP3 ISO and extract contents to the proper location /srv/tftpboot/suse-11.3/install/
     # Removing DEPS ISO (SUSE-CLOUD-4-DEPS-x86_64-GMC-DVD.iso) add in later for DEPS Testing
-    for ISO in SUSE-CLOUD-4-DEPS-x86_64-Build0022-Media.iso; do
-        if [[ $ISO == SUSE-CLOUD-4-DEPS-x86_64-Build0022-Media.iso ]]; then
+    for ISO in $DEPSISO; do
+        if [[ $ISO == $DEPSISO ]]; then
             # extraction location for SLES 11 SP3 Media
             xloc="/srv/tftpboot/suse-11.3/install/"
         else
