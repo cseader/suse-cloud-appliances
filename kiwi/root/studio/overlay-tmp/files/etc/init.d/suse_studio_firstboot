@@ -7,8 +7,8 @@
 ISODIR="/srv/tftpboot/iso"
 REPOSDIR="/srv/tftpboot/repos"
 SMTREPOS="/srv/www/htdocs/repo/"
-LOGFILE='/var/log/prepare-admin1.log'
-DEPSISO='SUSE-CLOUD-SLE11-SP3-DEPS-x86_64-Build0005-Media.iso'
+LOGFILE='/var/log/prepare-admin.log'
+DEPSISO='SUSE-CLOUD-SLE11-SP3-DEPS-x86_64-Build0019-Media.iso'
 DEV=0
 
 # Infrastructure for nice output/logging

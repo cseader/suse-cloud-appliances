@@ -110,9 +110,9 @@ chmod 644 /etc//sysconfig/network/ifcfg-eth0
 #chown root:root /srv/tftpboot/iso//SLES-11-SP3-DVD-x86_64-GM-DVD1.iso
 #chmod 644 /srv/tftpboot/iso//SLES-11-SP3-DVD-x86_64-GM-DVD1.iso
 mkdir -p /srv/tftpboot/iso/
-mv /studio/overlay-tmp/files//srv/tftpboot/iso//SUSE-CLOUD-SLE11-SP3-DEPS-x86_64-Build0005-Media.iso /srv/tftpboot/iso//SUSE-CLOUD-SLE11-SP3-DEPS-x86_64-Build0005-Media.iso
-chown root:root /srv/tftpboot/iso//SUSE-CLOUD-SLE11-SP3-DEPS-x86_64-Build0005-Media.iso
-chmod 644 /srv/tftpboot/iso//SUSE-CLOUD-SLE11-SP3-DEPS-x86_64-Build0005-Media.iso
+mv /studio/overlay-tmp/files//srv/tftpboot/iso//SUSE-CLOUD-SLE11-SP3-DEPS-x86_64-Build0019-Media.iso /srv/tftpboot/iso//SUSE-CLOUD-SLE11-SP3-DEPS-x86_64-Build0019-Media.iso
+chown root:root /srv/tftpboot/iso//SUSE-CLOUD-SLE11-SP3-DEPS-x86_64-Build0019-Media.iso
+chmod 644 /srv/tftpboot/iso//SUSE-CLOUD-SLE11-SP3-DEPS-x86_64-Build0019-Media.iso
 mkdir -p /srv/tftpboot/
 mv /studio/overlay-tmp/files//srv/tftpboot//install-chef-suse.patch /srv/tftpboot//install-chef-suse.patch
 chown root:root /srv/tftpboot//install-chef-suse.patch

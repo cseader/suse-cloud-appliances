@@ -12,7 +12,7 @@
         <oem-swapsize>512</oem-swapsize>
       </oemconfig>
     </type>
-    <version>4.0.0</version>
+    <version>5.0.0</version>
     <packagemanager>zypper</packagemanager>
     <rpm-check-signatures>false</rpm-check-signatures>
     <rpm-force>false</rpm-force>
