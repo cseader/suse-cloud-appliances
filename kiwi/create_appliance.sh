@@ -9,7 +9,7 @@
 # Contact: feedback@susestudio.com
 # ============================================================================
 
-image_file='image/SUSE_OpenStack_Cloud_4_Admin.x86_64-4.0.0.preload.iso'
+image_file='image/SUSE_OpenStack_Cloud_5_Admin.x86_64-5.0.0.preload.iso'
 image_arch='x86_64'
 schema_ver='5.2'
 base_system='SLES11_SP3'
