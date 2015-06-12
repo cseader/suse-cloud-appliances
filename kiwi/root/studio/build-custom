@@ -27,7 +27,7 @@ rm /etc/YaST2/licenses/license.txt
 mkdir -p /srv/tftpboot/iso
 
 # Create mountpoint directories for Cloud
-for MOUNTPOINT in /srv/tftpboot/suse-11.3/install /srv/tftpboot/repos/Cloud
+for MOUNTPOINT in /srv/tftpboot/suse-11.3/install /srv/tftpboot/repos/Cloud /srv/tftpboot/suse-12.0/install/ /srv/tftpboot/suse-12.0/repos/Cloud/
 do
     if [ ! -d $MOUNTPOINT ]
         then
