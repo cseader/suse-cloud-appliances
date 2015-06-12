@@ -1,0 +1,82 @@
+#!/usr/bin/perl
+# Copyright 2013 by Bernhard M. Wiedemann
+# Modified June 8, 2015 by Cameron Seader
+# License: GNU GPLv2
+
+use strict;
+use warnings;
+use File::Temp "tempfile";
+use File::Path qw( make_path );
+
+my $old_prefix = '/data/install/smt/repo/$RCE';
+my $new_prefix = "/data/install/smt/repo/SUSE";
+
+my @repos_array = ( ($old_prefix) . "/SLES11-SP3-Updates/sle-11-x86_64", ($old_prefix) . "/SLES11-SP3-Pool/sle-11-x86_64", ($old_prefix) . "/SLE11-HAE-SP3-Pool/sle-11-x86_64", ($old_prefix) . "/SLE11-HAE-SP3-Updates/sle-11-x86_64", ($old_prefix) . "/SUSE-Cloud-5-Pool/sle-11-x86_64", ($old_prefix) . "/SUSE-Cloud-5-Updates/sle-11-x86_64", ($new_prefix) . "/Products/SLE-SERVER/12/x86_64/product", ($new_prefix) . "/Updates/SLE-SERVER/12/x86_64/update");
+
+    sub addexclude
+    {
+        my $fh = shift;
+        print $fh "$_[0]\n";
+    }
+
+    sub findexcludes 
+    {
+      my $fh = shift;
+      my $dir = shift;
+        return unless -d $dir;
+        open( my $pipe, "ls --sort=t '$dir' |" );
+        my %seen;
+        while (<$pipe>) {
+            chomp;
+            my $rpm = $_;
+            if (/\.(delta|src|nosrc)\.rpm$/) {
+                addexclude($fh, $rpm);
+                next;
+            }
+            if (/\.drpm$/) {
+                addexclude($fh, $rpm);
+                next;
+            }
+
+            # strip version+revision+arch+extension
+            s/-[^-]+-[^-]+\.\w+\.rpm$//;
+
+            # all but the first(newest) should be excluded
+            if ( $seen{$_}++ ) {
+                addexclude($fh, $rpm);
+            }
+        }
+    }
+
+foreach my $repo (@repos_array) {
+    #my $updir=shift||'SLES11-SP3-Updates/sle-11-x86_64';
+    #my $updir=shift||'SLE11-HAE-SP3-Updates/sle-11-x86_64';
+    #my $updir=shift||'SUSE-Cloud-5-Updates/sle-11-x86_64';
+
+    my $fh          = File::Temp->new( TEMPLATE => "miniuprepoXXXXX" );
+    my $tmpfilename = $fh->filename;
+    my $updir = $repo;
+    $updir =~ s{/$}{};
+
+    #my $destdir     = "/data/install/smt/repo/mini/$updir";
+    my $destdir = "/data/install/smt/repo/mini/" . ($updir =~ s/^(?:\Q$old_prefix\E|\Q$new_prefix\E)//r);
+
+    if ( !-d $destdir ) {
+        make_path $destdir or die "Failed to create path: $destdir";
+    }
+
+    foreach my $rpmdir (<$updir/rpm/*>, <$updir/*>) {
+        findexcludes($fh, $rpmdir);
+    }
+    #close $fh;
+
+    system( qw"rsync -av --delete-after --link-dest", $updir, "--exclude-from", $tmpfilename, "$updir/", $destdir );
+
+    #unlink $tmpfilename;
+
+}
+
+continue
+{
+    print "$repo Completed!", "\n";
+}
