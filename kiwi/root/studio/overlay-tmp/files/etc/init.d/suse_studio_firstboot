@@ -7,7 +7,7 @@
 ISODIR="/srv/tftpboot/iso"
 REPOSDIR="/srv/tftpboot/repos"
 SMTREPOS="/srv/www/htdocs/repo/"
-LOGFILE='/var/log/prepare-admin1.log'
+LOGFILE='/var/log/prepare-admin.log'
 DEV=0
 
 # Infrastructure for nice output/logging
@@ -20,12 +20,12 @@ link_smt_repos() {
     echo "Creating symlinks for SMT repos"
     
     # Creating symlinks for SMT repos that were extracted
-    for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-4-{Pool,Updates} SLE11-HAE-SP3-{Pool,Updates}; do
+    for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-5-{Pool,Updates} SLE11-HAE-SP3-{Pool,Updates}; do
         ln -s $SMTREPOS\$RCE/$REPO/sle-11-x86_64 $REPOSDIR/${REPO/.0/}
     done
 
     if [[ $DEV = 1 ]]; then
-        for REPO in SUSE-Cloud-4-{Pool,Updates}; do
+        for REPO in SUSE-Cloud-5-{Pool,Updates}; do
             rm $REPOSDIR/${REPO/.0/}
         done
     fi
@@ -36,7 +36,7 @@ setup_local_smt() {
 
     #uncomment for local build
     #mkdir -p /srv/www/htdocs/repo/\$RCE/
-    #for archive in /SLES11-SP3-Pool.tar.bz2 /SLES11-SP3-Updates.tar.bz2 /SLE11-HAE-SP3-Pool.tar.bz2 /SLE11-HAE-SP3-Updates.tar.bz2 /SUSE-Cloud-4-Pool.tar.bz2 /SUSE-Cloud-4-Updates.tar.bz2; do
+    #for archive in /SLES11-SP3-Pool.tar.bz2 /SLES11-SP3-Updates.tar.bz2 /SLE11-HAE-SP3-Pool.tar.bz2 /SLE11-HAE-SP3-Updates.tar.bz2 /SUSE-Cloud-5-Pool.tar.bz2 /SUSE-Cloud-5-Updates.tar.bz2; do
     #    tar -xjvf $archive -C $SMTREPOS\$RCE/
     #    rm $archive
     #done
@@ -57,10 +57,16 @@ setup_local_sles_repos() {
 
     # mount SLES 11 SP3 ISO and extract contents to the proper location /srv/tftpboot/suse-11.3/install/
     # Removing DEPS ISO (SUSE-CLOUD-4-DEPS-x86_64-GMC-DVD.iso) add in later for DEPS Testing
-    for ISO in SLES-11-SP3-DVD-x86_64-GM-DVD1.iso; do
+    for ISO in "SLES-11-SP3-DVD-x86_64-GM-DVD1.iso" "SLE-12-Server-DVD-x86_64-GM-DVD1.iso" "SUSE-SLE12-CLOUD-5-COMPUTE-x86_64-GM-DVD1.iso"; do
         if [[ $ISO == SLES-11-SP3-DVD-x86_64-GM-DVD1.iso ]]; then
             # extraction location for SLES 11 SP3 Media
             xloc="/srv/tftpboot/suse-11.3/install/"
+        elif [[ $ISO == SLE-12-Server-DVD-x86_64-GM-DVD1.iso ]]; then
+            # extraction location for SLES 12 Media
+            xloc="/srv/tftpboot/suse-12.0/install/"
+        elif [[ $ISO == SUSE-SLE12-CLOUD-5-COMPUTE-x86_64-GM-DVD1.iso ]]; then
+            # extraction location for SLES 12 OpenStack Cloud 5 Media
+            xlog="/srv/tftpboot/suse-12.0/repos/Cloud/"
         else
             # extraction location for Cloud DEPS
             xloc="/srv/tftpboot/repos/Cloud-DEPS/"
