@@ -5,8 +5,9 @@
 
 # Global Variables 
 ISODIR="/srv/tftpboot/iso"
-REPOSDIR="/srv/tftpboot/repos"
-SMTREPOS="/srv/www/htdocs/repo/"
+REPOSDIR_SLE11="/srv/tftpboot/suse-11.3/repos"
+REPOSDIR_SLE12="/srv/tftpboot/suse-12.0/repos"
+SMTREPOS="/srv/www/htdocs/repo"
 LOGFILE='/var/log/prepare-admin.log'
 DEV=0
 
@@ -19,9 +20,35 @@ exec > "$LOGFILE" 2>&1
 link_smt_repos() {
     echo "Creating symlinks for SMT repos"
     
-    # Creating symlinks for SMT repos that were extracted
+    # Creating symlinks for SMT repos that were extracted for SLES 11 SP3
     for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-5-{Pool,Updates} SLE11-HAE-SP3-{Pool,Updates}; do
-        ln -s $SMTREPOS\$RCE/$REPO/sle-11-x86_64 $REPOSDIR/${REPO/.0/}
+        echo "Creating symlink for $REPO"
+        ln -s $SMTREPOS/\$RCE/$REPO/sle-11-x86_64 $REPOSDIR_SLE11/${REPO/.0/}
+    done
+    # Creating symlinks for SMT repos that were extracted for SLES 12
+    for REPO in SLES12-{Pool,Updates} SLE-12-Cloud-Compute5-{Pool,Updates} SUSE-Enterprise-Storage-1.0-{Pool,Updates}; do
+        case $REPO in
+        SLES12-Pool) echo "Creating symlink for $REPO"
+                     ln -s $SMTREPOS/SUSE/Products/SLE-SERVER/12/x86_64/product/ $REPOSDIR_SLE12/${REPO/.0/}
+                     ;; 
+        SLES12-Updates) echo "Creating symlink for $REPO"
+                        ln -s $SMTREPOS/SUSE/Updates/SLE-SERVER/12/x86_64/update/ $REPOSDIR_SLE12/${REPO/.0/}
+                        ;;
+        SLE-12-Cloud-Compute5-Pool) echo "Creating symlink for $REPO"
+                                    ln -s $SMTREPOS/SUSE/Products/12-Cloud-Compute/5/x86_64/product/ $REPOSDIR_SLE12/${REPO/.0/}
+                                    ;;  
+        SLE-12-Cloud-Compute5-Updates) echo "Creating symlink for $REPO"
+                                       ln -s $SMTREPOS/SUSE/Updates/12-Cloud-Compute/5/x86_64/update/ $REPOSDIR_SLE12/${REPO/.0/}
+                                       ;;
+        SUSE-Enterprise-Storage-1.0-Pool) echo "Creating symlink for $REPO"
+                                          ln -s $SMTREPOS/SUSE/Products/Storage/1.0/x86_64/product/ $REPOSDIR_SLE12/${REPO/.0/}
+                                          ;;
+        SUSE-Enterprise-Storage-1.0-Updates) echo "Creating symlink for $REPO"
+                                             ln -s $SMTREPOS/SUSE/Updates/Storage/1.0/x86_64/update/ $REPOSDIR_SLE12/${REPO/.0/}
+                                             ;; 
+        *) echo "Invalid option"
+           ;; 
+        esac
     done
 
     if [[ $DEV = 1 ]]; then
@@ -88,7 +115,7 @@ setup_local_sles_repos() {
             echo "extracting $ISO Complete"
         fi
     done
-    # Add repos to zypper
+    # Add repos to system 
     zypper ar --refresh file:///srv/tftpboot/suse-11.3/install/ "SLES 11 SP3 Media"
     # Add Cloud DEPS which contains all of the updated rpms for SLES 11 SP3 Updates and SLES 11 SP3 HAE Updates
     # removing the addition of the DEPS Repo. Add back in later for DEPS Testing.
@@ -103,13 +130,13 @@ setup_local_cloud_repos() {
 
     mkdir -p $REPOSDIR/Cloud/
 
-    # create a fake repo so the SUSE Cloud 4 ISO is not required
+    # create a fake repo so the SUSE Cloud 5 ISO is not required
     createrepo $REPOSDIR/Cloud/
 
     # Add repos to zypper
-    zypper ar --refresh file://$REPOSDIR/SUSE-Cloud-4-Pool/ "SUSE-Cloud-4-Pool"
+    zypper ar --refresh file://$REPOSDIR/SUSE-Cloud-5-Pool/ "SUSE-Cloud-5-Pool"
     if [[ $DEV = 0 ]]; then
-        zypper ar --refresh file://$REPOSDIR/SUSE-Cloud-4-Updates/ "SUSE-Cloud-4-Updates"
+        zypper ar --refresh file://$REPOSDIR/SUSE-Cloud-5-Updates/ "SUSE-Cloud-5-Updates"
     else
         echo "Devel Image: Skipping..."
     fi
