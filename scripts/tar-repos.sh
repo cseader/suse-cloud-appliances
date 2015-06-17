@@ -5,11 +5,11 @@
 # at appliance build-time.  One .tar.bz2 is created per repo.
 
 ALL_REPOS=(
-    SLES11-SP3-Pool SLES11-SP3-Updates SLE11-HAE-SP3-Pool SLE11-HAE-SP3-Updates SUSE-Cloud-5-Pool SUSE-Cloud-5-Updates Products Updates 
+    SLES11-SP3-Pool SLES11-SP3-Updates SLE11-HAE-SP3-Pool SLE11-HAE-SP3-Updates SUSE-Cloud-5-Pool SUSE-Cloud-5-Updates Products/SLE-SERVER/12/x86_64/product/ Updates/SLE-SERVER/12/x86_64/update/ Products/12-Cloud-Compute/5/x86_64/product/ Updates/12-Cloud-Compute/5/x86_64/update/ Products/Storage/1.0/x86_64/product/ Updates/Storage/1.0/x86_64/update/
 )
 
 warn () {
-    echo >&2 "$*"
+    echo >&2 "$*" 
 }
 
 die () {
@@ -78,10 +78,18 @@ main () {
         # The .tar needs to be an overlay which gets unpacked from /
         prefix="/$repo/"
 
-        if $repo == Products; then
+        if [[ $repo == *"Products"*"SLE-SERVER"*"12"* ]]; then
            tar_file="SLE-12-Server-Pool.tar.bz2"
-        elif $repo == Updates; then
+        elif [[ $repo == *"Updates"*"SLE-SERVER"*"12"* ]]; then
            tar_file="SLE-12-Server-Updates.tar.bz2"      
+        elif [[ $repo == *"Products"*"12-Cloud-Compute"*"5"* ]]; then
+           tar_file="SLE-12-Cloud-Compute5-Pool.tar.bz2"      
+        elif [[ $repo == *"Updates"*"12-Cloud-Compute"*"5"* ]]; then
+           tar_file="SLE-12-Cloud-Compute5-Updates.tar.bz2"      
+        elif [[ $repo == *"Products"*"Storage"*"1.0"* ]]; then
+           tar_file="SUSE-Enterprise-Storage-1.0-Pool.tar.bz2"      
+        elif [[ $repo == *"Updates"*"Storage"*"1.0"* ]]; then
+           tar_file="SUSE-Enterprise-Storage-1.0-Updates.tar.bz2"      
         else
            tar_file="$repo.tar.bz2"
         fi
