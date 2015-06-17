@@ -75,6 +75,7 @@ setup_local_smt() {
     #	createrepo /srv/www/htdocs/repo/\$RCE/$rdir/sle-11-x86_64/
     #done
     chown -R smt:www /srv/www/htdocs/repo/\$RCE/
+    chown -R smt:www /srv/www/htdocs/repo/SUSE/
 
     link_smt_repos
 }
@@ -93,7 +94,7 @@ setup_local_sles_repos() {
             xloc="/srv/tftpboot/suse-12.0/install/"
         elif [[ $ISO == SUSE-SLE12-CLOUD-5-COMPUTE-x86_64-GM-DVD1.iso ]]; then
             # extraction location for SLES 12 OpenStack Cloud 5 Media
-            xlog="/srv/tftpboot/suse-12.0/repos/Cloud/"
+            xloc="/srv/tftpboot/suse-12.0/repos/SLE12-Cloud-Compute/"
         else
             # extraction location for Cloud DEPS
             xloc="/srv/tftpboot/repos/Cloud-DEPS/"
@@ -127,16 +128,22 @@ setup_local_sles_repos() {
 
 setup_local_cloud_repos() {
     echo "Setting up Cloud repos"
+    
+    if [[ ! -d $REPOSDIR_SLE11/Cloud/ ]]; then
+        mkdir -p $REPOSDIR_SLE11/Cloud/
+        # create a fake repo so the SUSE Cloud 5 ISO is not required
+        echo "creating repodata"
+        createrepo $REPOSDIR_SLE11/Cloud/
+    else
+        echo "directory exists, creating repodata"
+        # create a fake repo so the SUSE Cloud 5 ISO is not required
+        createrepo $REPOSDIR_SLE11/Cloud/
+    fi
 
-    mkdir -p $REPOSDIR/Cloud/
-
-    # create a fake repo so the SUSE Cloud 5 ISO is not required
-    createrepo $REPOSDIR/Cloud/
-
-    # Add repos to zypper
-    zypper ar --refresh file://$REPOSDIR/SUSE-Cloud-5-Pool/ "SUSE-Cloud-5-Pool"
+    # Add repos to local zypper
+    zypper ar --refresh file://$REPOSDIR_SLE11/SUSE-Cloud-5-Pool/ "SUSE-Cloud-5-Pool"
     if [[ $DEV = 0 ]]; then
-        zypper ar --refresh file://$REPOSDIR/SUSE-Cloud-5-Updates/ "SUSE-Cloud-5-Updates"
+        zypper ar --refresh file://$REPOSDIR_SLE11/SUSE-Cloud-5-Updates/ "SUSE-Cloud-5-Updates"
     else
         echo "Devel Image: Skipping..."
     fi
