@@ -23,7 +23,7 @@ link_smt_repos() {
     # Creating symlinks for SMT repos that were extracted for SLES 11 SP3
     for REPO in SLES11-SP3-{Pool,Updates} SUSE-Cloud-5-{Pool,Updates} SLE11-HAE-SP3-{Pool,Updates}; do
         echo "Creating symlink for $REPO"
-        ln -s $SMTREPOS/\$RCE/$REPO/sle-11-x86_64 $REPOSDIR_SLE11/${REPO/.0/}
+        ln -s "$SMTREPOS/\$RCE/$REPO/sle-11-x86_64" $REPOSDIR_SLE11/${REPO/.0/}
     done
     # Creating symlinks for SMT repos that were extracted for SLES 12
     for REPO in SLES12-{Pool,Updates} SLE-12-Cloud-Compute5-{Pool,Updates} SUSE-Enterprise-Storage-1.0-{Pool,Updates}; do
@@ -122,7 +122,7 @@ setup_local_sles_repos() {
     # removing the addition of the DEPS Repo. Add back in later for DEPS Testing.
     #zypper ar --refresh file:///srv/tftpboot/repos/Cloud-DEPS/ "Cloud DEPS"
     # Add SLES 11 SP3 Updates repo
-    zypper ar --refresh file:///srv/tftpboot/repos/SLES11-SP3-Updates/ "SLES 11 SP3 Updates"
+    zypper ar --refresh file://$REPOSDIR_SLE11/SLES11-SP3-Updates/ "SLES 11 SP3 Updates"
     zypper --gpg-auto-import-keys refresh
 }
 

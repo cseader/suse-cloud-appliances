@@ -3,7 +3,7 @@
   <studio_uuid>8466bd24-fd59-11df-9f90-475ae2f5345b</studio_uuid>
   <appliance_uuid>6d806c62-6292-11e3-2b82-6d85c08649ef</appliance_uuid>
   <config>
-    <image name="SUSE_OpenStack_Cloud_4_Admin" displayname="SUSE_OpenStack_Cloud_4_Admin" schemaversion="5.2">
+    <image name="SUSE_OpenStack_Cloud_5_Admin" displayname="SUSE_OpenStack_Cloud_5_Admin" schemaversion="5.2">
       <description type="system">
         <author>cameron seader</author>
         <contact>studio-devel@suse.de</contact>
@@ -16,7 +16,7 @@
             <oem-swapsize>512</oem-swapsize>
           </oemconfig>
         </type>
-        <version>4.0.0</version>
+        <version>5.0.0</version>
         <packagemanager>ensconce</packagemanager>
         <rpm-check-signatures>false</rpm-check-signatures>
         <rpm-force>false</rpm-force>
@@ -138,7 +138,7 @@
   <extra_config name="SUSE_OpenStack_Cloud_4_Admin">
     <appliance_id>1088418</appliance_id>
     <arch>x86_64</arch>
-    <version>4.0.0</version>
+    <version>5.0.0</version>
     <logo>a6/ea8e8397942dcde65aa0cdf13a3d7a</logo>
     <background>da/17a1bd47b33fd3f0cbf400634aff70</background>
     <base_system>SLES11_SP3</base_system>
