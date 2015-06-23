@@ -12,7 +12,7 @@ if [ -f /etc/init.d/suse_studio_firstboot ]; then
     echo " // //  @"
     echo ""
     echo "    Running prepare step 1"
-    echo "    This will take a few minutes..."
+    echo "    This will take several minutes..."
     printf "%*s" $COLUMNS |tr " " "="
     echo ""
 fi
