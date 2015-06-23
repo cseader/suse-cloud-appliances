@@ -96,8 +96,8 @@ main () {
         tar_path="$DEST_DIR/$tar_file"
         #subdirs=( $( find * -maxdepth 0 -type d ) )
         #echo tar --exclude=*delta* --transform="s,^,$prefix," -jcvf "$tar_path" "$repo"
-        echo tar --exclude=*delta* -jcvf "$tar_path" "$repo"
-        if ! tar --exclude=*delta* -jcvf "$tar_path" "$repo"; then
+        echo tar -jcvf "$tar_path" "$repo"
+        if ! tar -jcvf "$tar_path" "$repo"; then
             warn "Failed to create $tar_path"
         fi
         echo "Wrote $tar_path"
