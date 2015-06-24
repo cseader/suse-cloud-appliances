@@ -85,7 +85,7 @@ setup_local_sles_repos() {
 
     # mount SLES 11 SP3 ISO and extract contents to the proper location /srv/tftpboot/suse-11.3/install/
     # Removing DEPS ISO (SUSE-CLOUD-4-DEPS-x86_64-GMC-DVD.iso) add in later for DEPS Testing
-    for ISO in "SLES-11-SP3-DVD-x86_64-GM-DVD1.iso" "SLE-12-Server-DVD-x86_64-GM-DVD1.iso" "SUSE-SLE12-CLOUD-5-COMPUTE-x86_64-GM-DVD1.iso"; do
+    for ISO in "SLES-11-SP3-DVD-x86_64-GM-DVD1.iso" "SLE-12-Server-DVD-x86_64-GM-DVD1.iso" "SUSE-SLE12-CLOUD-5-COMPUTE-x86_64-GM-DVD1.iso" "SUSE-CLOUD-5-x86_64-GM-DVD1.iso"; do
         if [[ $ISO == SLES-11-SP3-DVD-x86_64-GM-DVD1.iso ]]; then
             # extraction location for SLES 11 SP3 Media
             xloc="/srv/tftpboot/suse-11.3/install/"
@@ -95,6 +95,9 @@ setup_local_sles_repos() {
         elif [[ $ISO == SUSE-SLE12-CLOUD-5-COMPUTE-x86_64-GM-DVD1.iso ]]; then
             # extraction location for SLES 12 OpenStack Cloud 5 Media
             xloc="/srv/tftpboot/suse-12.0/repos/SLE12-Cloud-Compute/"
+        elif [[ $ISO == SUSE-CLOUD-5-x86_64-GM-DVD1.iso ]]; then
+            # extraction location for SLES 11 SP3 OpenStack Cloud 5 Media
+            xloc="/srv/tftpboot/suse-11.3/repos/Cloud/"
         else
             # extraction location for Cloud DEPS
             xloc="/srv/tftpboot/repos/Cloud-DEPS/"
@@ -133,11 +136,11 @@ setup_local_cloud_repos() {
         mkdir -p $REPOSDIR_SLE11/Cloud/
         # create a fake repo so the SUSE Cloud 5 ISO is not required
         echo "creating repodata"
-        createrepo $REPOSDIR_SLE11/Cloud/
+        #createrepo $REPOSDIR_SLE11/Cloud/
     else
         echo "directory exists, creating repodata"
         # create a fake repo so the SUSE Cloud 5 ISO is not required
-        createrepo $REPOSDIR_SLE11/Cloud/
+        #createrepo $REPOSDIR_SLE11/Cloud/
     fi
 
     # Add repos to local zypper
