@@ -159,11 +159,24 @@ install_cloud_admin() {
     zypper in -n -y --auto-agree-with-licenses --force-resolution ipmitool
 }
 
+prepare_admin() {
+    # Scrap pointless 45 second tcpdump per interface
+    sed -i 's/45/1/' /opt/dell/chef/cookbooks/ohai/files/default/plugins/crowbar.rb
+
+    # Create the directory for shared glance storage
+    mkdir -p /var/lib/glance
+
+    # Create the NFS export for shared storage for HA PostgreSQL and RabbitMQ
+    mkdir -p /nfs/{postgresql,rabbitmq}
+    echo '/nfs <%= @admin_subnet %>/<%= @admin_netmask %>(rw,async,no_root_squash,no_subtree_check)' >> /opt/dell/chef/cookbooks/nfs-server/templates/default/exports.erb
+}
+
 main() {
     setup_local_smt
     setup_local_sles_repos
     setup_local_cloud_repos
     install_cloud_admin    
+    prepare_admin
     echo "Clean up"
     # Cleanup firstboot
     mv /etc/init.d/suse_studio_firstboot /tmp/
